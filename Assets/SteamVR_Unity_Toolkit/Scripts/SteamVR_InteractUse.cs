@@ -126,7 +126,7 @@ public class SteamVR_InteractUse : MonoBehaviour
         GameObject touchedObject = interactTouch.GetTouchedObject();
         if (touchedObject != null && interactTouch.IsObjectInteractable(touchedObject))
         {
-            UseInteractedObject(touchedObject);
+            UseInteractedObject(touchedObject);            
             if (!IsObjectHoldOnUse(usingObject))
             {
                 SetObjectUsingState(usingObject, GetObjectUsingState(usingObject) + 1);
