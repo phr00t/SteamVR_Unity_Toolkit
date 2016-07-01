@@ -45,6 +45,14 @@ namespace VRTK
             return usingObject;
         }
 
+        public void ForceStopUsing()
+        {
+            if(usingObject != null)
+            {
+                StopUsing();
+            }
+        }
+
         private void Awake()
         {
             if (GetComponent<VRTK_InteractTouch>() == null)
@@ -122,7 +130,7 @@ namespace VRTK
                 var rumbleAmount = usingObjectScript.rumbleOnUse;
                 if (!rumbleAmount.Equals(Vector2.zero))
                 {
-                    controllerActions.TriggerHapticPulse((ushort)rumbleAmount.y, (int)rumbleAmount.x, 0.05f);
+                    controllerActions.TriggerHapticPulse((ushort)rumbleAmount.y, rumbleAmount.x, 0.05f);
                 }
             }
         }
@@ -150,9 +158,29 @@ namespace VRTK
             }
         }
 
+        private GameObject GetFromGrab()
+        {
+            if (this.GetComponent<VRTK_InteractGrab>())
+            {
+                return this.GetComponent<VRTK_InteractGrab>().GetGrabbedObject();
+            }
+            return null;
+        }
+
+        private void StopUsing()
+        {
+            SetObjectUsingState(usingObject, 0);
+            UnuseInteractedObject();
+        }
+
         private void DoStartUseObject(object sender, ControllerInteractionEventArgs e)
         {
             GameObject touchedObject = interactTouch.GetTouchedObject();
+            if(touchedObject == null)
+            {
+                touchedObject = GetFromGrab();
+            }
+
             if (touchedObject != null && interactTouch.IsObjectInteractable(touchedObject))
             {
                 UseInteractedObject(touchedObject);
@@ -167,8 +195,7 @@ namespace VRTK
         {
             if (IsObjectHoldOnUse(usingObject) || GetObjectUsingState(usingObject) >= 2)
             {
-                SetObjectUsingState(usingObject, 0);
-                UnuseInteractedObject();
+                StopUsing();
             }
         }
     }

@@ -21,7 +21,6 @@ namespace VRTK
     [RequireComponent(typeof(VRTK_ControllerActions))]
     public class VRTK_InteractTouch : MonoBehaviour
     {
-
         public bool hideControllerOnTouch = false;
         public float hideControllerDelay = 0f;
         public Color globalTouchHighlightColor = Color.clear;
@@ -30,6 +29,8 @@ namespace VRTK
         public event ObjectInteractEventHandler ControllerUntouchInteractableObject;
 
         private GameObject touchedObject = null;
+        private GameObject lastTouchedObject = null;
+
         private SteamVR_TrackedObject trackedController;
         private VRTK_ControllerActions controllerActions;
         private GameObject controllerRigidBody;
@@ -84,6 +85,14 @@ namespace VRTK
             }
         }
 
+        public void ForceStopTouching()
+        {
+            if (touchedObject != null)
+            {
+                StopTouching(touchedObject);
+            }
+        }
+
         private void Awake()
         {
         if( SteamVR.enabled == false ) {
@@ -106,8 +115,21 @@ namespace VRTK
             CreateControllerRigidBody();
         }
 
+        private void OnTriggerEnter(Collider collider)
+        {
+            if(IsObjectInteractable(collider.gameObject) && (touchedObject == null || !touchedObject.GetComponent<VRTK_InteractableObject>().IsGrabbed()))
+            {
+                lastTouchedObject = collider.gameObject;
+            }
+        }
+
         private void OnTriggerStay(Collider collider)
         {
+            if(touchedObject != null && touchedObject != lastTouchedObject && !touchedObject.GetComponent<VRTK_InteractableObject>().IsGrabbed())
+            {
+                ForceStopTouching();
+            }
+
             if (touchedObject == null && IsObjectInteractable(collider.gameObject))
             {
                 if (collider.gameObject.GetComponent<VRTK_InteractableObject>())
@@ -139,28 +161,40 @@ namespace VRTK
                 var rumbleAmount = touchedObjectScript.rumbleOnTouch;
                 if (!rumbleAmount.Equals(Vector2.zero))
                 {
-                    controllerActions.TriggerHapticPulse((ushort)rumbleAmount.y, (int)rumbleAmount.x, 0.05f);
+                    controllerActions.TriggerHapticPulse((ushort)rumbleAmount.y, rumbleAmount.x, 0.05f);
                 }
             }
         }
 
+        private bool IsColliderChildOfTouchedObject(GameObject collider)
+        {
+            if (touchedObject != null && collider.GetComponentInParent<VRTK_InteractableObject>() && collider.GetComponentInParent<VRTK_InteractableObject>().gameObject == touchedObject)
+            {
+                return true;
+            }
+            return false;
+        }
+
         private void OnTriggerExit(Collider collider)
         {
-            if (touchedObject == null)
+            if (touchedObject != null && (touchedObject == collider.gameObject || IsColliderChildOfTouchedObject(collider.gameObject)))
             {
-                return;
+                StopTouching(collider.gameObject);
             }
+        }
 
-            if (IsObjectInteractable(collider.gameObject))
+        private void StopTouching(GameObject obj)
+        {
+            if (IsObjectInteractable(obj))
             {
                 GameObject untouched;
-                if (collider.gameObject.GetComponent<VRTK_InteractableObject>())
+                if (obj.GetComponent<VRTK_InteractableObject>())
                 {
-                    untouched = collider.gameObject;
+                    untouched = obj;
                 }
                 else
                 {
-                    untouched = collider.gameObject.GetComponentInParent<VRTK_InteractableObject>().gameObject;
+                    untouched = obj.GetComponentInParent<VRTK_InteractableObject>().gameObject;
                 }
 
                 OnControllerUntouchInteractableObject(SetControllerInteractEvent(untouched.gameObject));

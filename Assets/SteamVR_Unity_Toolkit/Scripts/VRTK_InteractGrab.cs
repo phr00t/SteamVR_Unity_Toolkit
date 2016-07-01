@@ -53,7 +53,7 @@ namespace VRTK
 
         public void ForceRelease()
         {
-            if (grabbedObject && grabbedObject.GetComponent<VRTK_InteractableObject>() && grabbedObject.GetComponent<VRTK_InteractableObject>().AttachIsTrackObject())
+            if (grabbedObject != null && grabbedObject.GetComponent<VRTK_InteractableObject>() && grabbedObject.GetComponent<VRTK_InteractableObject>().AttachIsTrackObject())
             {
                 UngrabTrackedObject();
             }
@@ -118,6 +118,49 @@ namespace VRTK
             return (obj && obj.GetComponent<VRTK_InteractableObject>() && obj.GetComponent<VRTK_InteractableObject>().holdButtonToGrab);
         }
 
+        private Transform GetSnapHandle(VRTK_InteractableObject objectScript)
+        {
+            if (objectScript.rightSnapHandle == null && objectScript.leftSnapHandle != null)
+            {
+                objectScript.rightSnapHandle = objectScript.leftSnapHandle;
+            }
+
+            if (objectScript.leftSnapHandle == null && objectScript.rightSnapHandle != null)
+            {
+                objectScript.leftSnapHandle = objectScript.rightSnapHandle;
+            }
+
+            if (DeviceFinder.IsControllerOfHand(this.gameObject, DeviceFinder.ControllerHand.Right))
+            {
+                return objectScript.rightSnapHandle;
+            }
+
+            if (DeviceFinder.IsControllerOfHand(this.gameObject, DeviceFinder.ControllerHand.Left))
+            {
+                return objectScript.leftSnapHandle;
+            }
+
+            return null;
+        }
+
+        private void SetSnappedObjectPosition(GameObject obj)
+        {
+            var objectScript = obj.GetComponent<VRTK_InteractableObject>();
+
+            if (objectScript.rightSnapHandle == null && objectScript.leftSnapHandle == null)
+            {
+                obj.transform.position = controllerAttachPoint.transform.position;
+            }
+            else
+            {
+                var snapHandle = GetSnapHandle(objectScript);
+                objectScript.SetGrabbedSnapHandle(snapHandle);
+
+                obj.transform.rotation = this.transform.rotation * Quaternion.Euler(snapHandle.transform.localEulerAngles);
+                obj.transform.position = controllerAttachPoint.transform.position - (snapHandle.transform.position - obj.transform.position);
+            }
+        }
+
         private void SnapObjectToGrabToController(GameObject obj)
         {
             var objectScript = obj.GetComponent<VRTK_InteractableObject>();
@@ -125,24 +168,9 @@ namespace VRTK
             //Pause collisions (if allowed on object) for a moment whilst sorting out position to prevent clipping issues
             objectScript.PauseCollisions();
 
-            VRTK_InteractableObject.GrabSnapType grabType = objectScript.grabSnapType;
-
-            if (grabType == VRTK_InteractableObject.GrabSnapType.Rotation_Snap)
+            if(! objectScript.precisionSnap)
             {
-                obj.transform.rotation = this.transform.rotation * Quaternion.Euler(objectScript.snapToRotation);
-            }
-
-            if (grabType != VRTK_InteractableObject.GrabSnapType.Precision_Snap)
-            {
-                obj.transform.position = controllerAttachPoint.transform.position + objectScript.snapToPosition;
-            }
-
-            if (grabType == VRTK_InteractableObject.GrabSnapType.Handle_Snap && objectScript.snapHandle != null)
-            {
-                obj.transform.rotation = this.transform.rotation * Quaternion.Euler(objectScript.snapHandle.transform.localEulerAngles);
-
-                Vector3 snapHandleDelta = objectScript.snapHandle.transform.position - obj.transform.position;
-                obj.transform.position = controllerAttachPoint.transform.position - snapHandleDelta;
+                SetSnappedObjectPosition(obj);
             }
 
             if (objectScript.grabAttachMechanic == VRTK_InteractableObject.GrabAttachType.Child_Of_Controller)
@@ -168,7 +196,7 @@ namespace VRTK
                 SpringJoint tempSpringJoint = obj.AddComponent<SpringJoint>();
                 tempSpringJoint.spring = objectScript.springJointStrength;
                 tempSpringJoint.damper = objectScript.springJointDamper;
-                if(objectScript.grabSnapType == VRTK_InteractableObject.GrabSnapType.Precision_Snap)
+                if(objectScript.precisionSnap)
                 {
                     tempSpringJoint.anchor = obj.transform.InverseTransformPoint(controllerAttachPoint.position);
                 }
@@ -230,7 +258,7 @@ namespace VRTK
             rb.maxAngularVelocity = rb.angularVelocity.magnitude;
         }
 
-        private void GrabInteractedObject()
+        private bool GrabInteractedObject()
         {
             if (controllerAttachJoint == null && grabbedObject == null && IsObjectGrabbable(interactTouch.GetTouchedObject()))
             {
@@ -238,16 +266,25 @@ namespace VRTK
                 if(grabbedObject)
                 {
                     SnapObjectToGrabToController(grabbedObject);
+                    return true;
                 }
             }
+            return false;
         }
 
-        private void GrabTrackedObject()
+        private bool GrabTrackedObject()
         {
             if (grabbedObject == null && IsObjectGrabbable(interactTouch.GetTouchedObject()))
             {
                 InitGrabbedObject();
+                if (grabbedObject)
+                {
+                    var objectScript = grabbedObject.GetComponent<VRTK_InteractableObject>();
+                    objectScript.SetGrabbedSnapHandle(GetSnapHandle(objectScript));
+                    return true;
+                }
             }
+            return false;
         }
 
         private void InitGrabbedObject()
@@ -335,36 +372,47 @@ namespace VRTK
             grabEnabledState = 0;
         }
 
-        private bool IsValidGrab()
+        private GameObject GetGrabbableObject()
         {
             GameObject obj = interactTouch.GetTouchedObject();
-            return (obj != null && interactTouch.IsObjectInteractable(obj));
+            if (obj != null && interactTouch.IsObjectInteractable(obj))
+            {
+                return obj;
+            }
+            return grabbedObject;
+        }
+
+        private void IncrementGrabState()
+        {
+            if (!IsObjectHoldOnGrab(interactTouch.GetTouchedObject()))
+            {
+                grabEnabledState++;
+            }
         }
 
         private void AttemptGrabObject()
         {
-            if (IsValidGrab())
+            var objectToGrab = GetGrabbableObject();
+            if (objectToGrab != null)
             {
-                if (interactTouch.GetTouchedObject().GetComponent<VRTK_InteractableObject>().AttachIsTrackObject())
+                IncrementGrabState();
+                var initialGrabAttempt = false;
+
+                if (objectToGrab.GetComponent<VRTK_InteractableObject>().AttachIsTrackObject())
                 {
-                    GrabTrackedObject();
+                    initialGrabAttempt = GrabTrackedObject();
                 }
                 else
                 {
-                    GrabInteractedObject();
+                    initialGrabAttempt = GrabInteractedObject();
                 }
 
-                if (!IsObjectHoldOnGrab(interactTouch.GetTouchedObject()))
-                {
-                    grabEnabledState++;
-                }
-
-                if (grabbedObject)
+                if (grabbedObject && initialGrabAttempt)
                 {
                     var rumbleAmount = grabbedObject.GetComponent<VRTK_InteractableObject>().rumbleOnGrab;
                     if (!rumbleAmount.Equals(Vector2.zero))
                     {
-                        controllerActions.TriggerHapticPulse((ushort)rumbleAmount.y, (int)rumbleAmount.x, 0.05f);
+                        controllerActions.TriggerHapticPulse((ushort)rumbleAmount.y, rumbleAmount.x, 0.05f);
                     }
                 }
             }
@@ -414,7 +462,7 @@ namespace VRTK
             if (grabPrecognitionTimer > 0)
             {
                 grabPrecognitionTimer--;
-                if (IsValidGrab())
+                if (GetGrabbableObject() != null)
                 {
                     AttemptGrabObject();
                 }
