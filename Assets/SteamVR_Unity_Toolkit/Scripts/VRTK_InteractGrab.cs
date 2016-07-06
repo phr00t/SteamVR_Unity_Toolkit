@@ -168,7 +168,7 @@ namespace VRTK
             //Pause collisions (if allowed on object) for a moment whilst sorting out position to prevent clipping issues
             objectScript.PauseCollisions();
 
-            if(! objectScript.precisionSnap)
+            if (!objectScript.precisionSnap)
             {
                 SetSnappedObjectPosition(obj);
             }
@@ -196,7 +196,7 @@ namespace VRTK
                 SpringJoint tempSpringJoint = obj.AddComponent<SpringJoint>();
                 tempSpringJoint.spring = objectScript.springJointStrength;
                 tempSpringJoint.damper = objectScript.springJointDamper;
-                if(objectScript.precisionSnap)
+                if (objectScript.precisionSnap)
                 {
                     tempSpringJoint.anchor = obj.transform.InverseTransformPoint(controllerAttachPoint.position);
                 }
@@ -263,7 +263,7 @@ namespace VRTK
             if (controllerAttachJoint == null && grabbedObject == null && IsObjectGrabbable(interactTouch.GetTouchedObject()))
             {
                 InitGrabbedObject();
-                if(grabbedObject)
+                if (grabbedObject)
                 {
                     SnapObjectToGrabToController(grabbedObject);
                     return true;
