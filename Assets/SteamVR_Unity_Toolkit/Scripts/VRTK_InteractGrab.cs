@@ -88,15 +88,10 @@ namespace VRTK
 
         private void Start()
         {
-            //If no attach point has been specified then just use the tip of the controller
-		if( SteamVR.active == false ) {
-		    this.enabled = false;
-		    return;
-		}
-            if (controllerAttachPoint == null)
-            {
-                controllerAttachPoint = transform.GetChild(0).Find("tip").GetChild(0).GetComponent<Rigidbody>();
-            }
+	    if( SteamVR.active == false ) {
+	        this.enabled = false;
+	        return;
+	    }
 
             if (GetComponent<VRTK_ControllerEvents>() == null)
             {
@@ -106,6 +101,29 @@ namespace VRTK
 
             GetComponent<VRTK_ControllerEvents>().AliasGrabOn += new ControllerInteractionEventHandler(DoGrabObject);
             GetComponent<VRTK_ControllerEvents>().AliasGrabOff += new ControllerInteractionEventHandler(DoReleaseObject);
+
+            SetControllerAttachPoint();
+        }
+
+        private void SetControllerAttachPoint()
+        {
+            //If no attach point has been specified then just use the tip of the controller
+            if (controllerAttachPoint == null)
+            {
+                //attempt to find the attach point on the controller
+                var defaultAttachPoint = transform.Find("Model/tip/attach");
+                if (defaultAttachPoint != null)
+                {
+                    controllerAttachPoint = defaultAttachPoint.GetComponent<Rigidbody>();
+
+                    if (controllerAttachPoint == null)
+                    {
+                        var autoGenRB = defaultAttachPoint.gameObject.AddComponent<Rigidbody>();
+                        autoGenRB.isKinematic = true;
+                        controllerAttachPoint = autoGenRB;
+                    }
+                }
+            }
         }
 
         private bool IsObjectGrabbable(GameObject obj)
@@ -459,6 +477,11 @@ namespace VRTK
 
         private void Update()
         {
+            if(controllerAttachPoint == null)
+            {
+                SetControllerAttachPoint();
+            }
+
             if (grabPrecognitionTimer > 0)
             {
                 grabPrecognitionTimer--;
