@@ -35,6 +35,7 @@ namespace VRTK
         private SteamVR_TrackedObject trackedController;
         private VRTK_ControllerActions controllerActions;
         private GameObject controllerRigidBodyObject;
+        private bool triggerRumble;
 
         public virtual void OnControllerTouchInteractableObject(ObjectInteractEventArgs e)
         {
@@ -115,6 +116,7 @@ namespace VRTK
             Utilities.SetPlayerObject(this.gameObject, VRTK_PlayerObject.ObjectTypes.Controller);
             CreateTouchCollider(this.gameObject);
             CreateControllerRigidBody();
+            triggerRumble = false;
         }
 
         private void OnTriggerEnter(Collider collider)
@@ -161,11 +163,18 @@ namespace VRTK
                 }
 
                 var rumbleAmount = touchedObjectScript.rumbleOnTouch;
-                if (!rumbleAmount.Equals(Vector2.zero))
+                if (!rumbleAmount.Equals(Vector2.zero) && !triggerRumble)
                 {
+                    triggerRumble = true;
                     controllerActions.TriggerHapticPulse((ushort)rumbleAmount.y, rumbleAmount.x, 0.05f);
+                    Invoke("ResetTriggerRumble", rumbleAmount.x);
                 }
             }
+        }
+
+        private void ResetTriggerRumble()
+        {
+            triggerRumble = false;
         }
 
         private bool IsColliderChildOfTouchedObject(GameObject collider)

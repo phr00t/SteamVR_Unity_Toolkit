@@ -304,11 +304,13 @@ namespace VRTK
 
             if (grabbingObject != null)
             {
+                grabbingObject.GetComponent<VRTK_InteractTouch>().ForceStopTouching();
                 grabbingObject.GetComponent<VRTK_InteractGrab>().ForceRelease();
             }
 
             if (usingObject != null)
             {
+                usingObject.GetComponent<VRTK_InteractTouch>().ForceStopTouching();
                 usingObject.GetComponent<VRTK_InteractUse>().ForceStopUsing();
             }
         }
@@ -316,6 +318,14 @@ namespace VRTK
         public void SetGrabbedSnapHandle(Transform handle)
         {
             grabbedSnapHandle = handle;
+        }
+
+        public void RegisterTeleporters()
+        {
+            foreach (var teleporter in GameObject.FindObjectsOfType<VRTK_BasicTeleport>())
+            {
+                teleporter.Teleported += new TeleportEventHandler(OnTeleported);
+            }
         }
 
         protected virtual void Awake()
@@ -334,6 +344,7 @@ namespace VRTK
         protected virtual void Start()
         {
             originalObjectColours = StoreOriginalColors();
+            RegisterTeleporters();
         }
 
         protected virtual void Update()
@@ -525,6 +536,14 @@ namespace VRTK
 
                 Vector3 velocityTarget = positionDelta / Time.fixedDeltaTime;
                 rb.velocity = Vector3.MoveTowards(rb.velocity, velocityTarget, maxDistanceDelta);
+            }
+        }
+
+        private void OnTeleported(object sender, DestinationMarkerEventArgs e)
+        {
+            if (grabAttachMechanic == GrabAttachType.Track_Object && trackPoint)
+            {
+                this.transform.position = grabbingObject.transform.position;
             }
         }
     }

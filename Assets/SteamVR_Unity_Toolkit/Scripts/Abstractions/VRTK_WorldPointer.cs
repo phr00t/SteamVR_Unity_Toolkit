@@ -19,6 +19,7 @@ namespace VRTK
         }
 
         public VRTK_ControllerEvents controller = null;
+        public Material pointerMaterial;
         public Color pointerHitColor = new Color(0f, 0.5f, 0f, 1f);
         public Color pointerMissColor = new Color(0.8f, 0f, 0f, 1f);
         public bool showPlayAreaCursor = false;
@@ -33,7 +34,6 @@ namespace VRTK
         protected Transform pointerContactTarget = null;
         protected uint controllerIndex;
 
-        protected Material pointerMaterial;
         protected bool playAreaCursorCollided = false;
 
         private SteamVR_PlayArea playArea;
@@ -89,7 +89,13 @@ namespace VRTK
             playArea = GameObject.FindObjectOfType<SteamVR_PlayArea>();
             playAreaCursorBoundaries = new GameObject[4];
 
-            pointerMaterial = new Material(Shader.Find("Unlit/TransparentColor"));
+            var tmpMaterial = Resources.Load("WorldPointer") as Material;
+            if (pointerMaterial != null)
+            {
+                tmpMaterial = pointerMaterial;
+            }
+
+            pointerMaterial = new Material(tmpMaterial);
             pointerMaterial.color = pointerMissColor;
         }
 
@@ -166,7 +172,7 @@ namespace VRTK
                 return;
             }
 
-            OnDestinationMarkerEnter(SeDestinationMarkerEvent(pointerContactDistance, pointerContactTarget, destinationPosition, controllerIndex));
+            OnDestinationMarkerEnter(SetDestinationMarkerEvent(pointerContactDistance, pointerContactTarget, destinationPosition, controllerIndex));
 
             var interactableObject = pointerContactTarget.GetComponent<VRTK_InteractableObject>();
             if (interactableObject && interactableObject.pointerActivatesUseAction && interactableObject.holdButtonToUse)
@@ -182,7 +188,7 @@ namespace VRTK
                 return;
             }
 
-            OnDestinationMarkerExit(SeDestinationMarkerEvent(pointerContactDistance, pointerContactTarget, destinationPosition, controllerIndex));
+            OnDestinationMarkerExit(SetDestinationMarkerEvent(pointerContactDistance, pointerContactTarget, destinationPosition, controllerIndex));
 
             var interactableObject = pointerContactTarget.GetComponent<VRTK_InteractableObject>();
             if (interactableObject && interactableObject.pointerActivatesUseAction && interactableObject.holdButtonToUse)
@@ -213,7 +219,7 @@ namespace VRTK
 
             if (!playAreaCursorCollided && (interactableObject == null || !interactableObject.pointerActivatesUseAction))
             {
-                OnDestinationMarkerSet(SeDestinationMarkerEvent(pointerContactDistance, pointerContactTarget, destinationPosition, controllerIndex));
+                OnDestinationMarkerSet(SetDestinationMarkerEvent(pointerContactDistance, pointerContactTarget, destinationPosition, controllerIndex));
             }
         }
 

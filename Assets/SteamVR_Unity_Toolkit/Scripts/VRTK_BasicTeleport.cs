@@ -85,8 +85,8 @@ namespace VRTK
 
         protected virtual bool ValidLocation(Transform target)
         {
-            //If the target is one of the player objects then it's never a valid location
-            if(target.GetComponent<VRTK_PlayerObject>())
+            //If the target is one of the player objects or a UI Canvas then it's never a valid location
+            if(target.GetComponent<VRTK_PlayerObject>() || target.GetComponent<VRTK_UIGraphicRaycaster>())
             {
                 return false;
             }
@@ -136,7 +136,8 @@ namespace VRTK
         {
             if (adjustYForTerrain && target.GetComponent<Terrain>())
             {
-                position.y = Terrain.activeTerrain.SampleHeight(position);
+                var terrainHeight = Terrain.activeTerrain.SampleHeight(position);
+                position.y = (terrainHeight > position.y ? position.y : terrainHeight);
             }
             return position;
         }

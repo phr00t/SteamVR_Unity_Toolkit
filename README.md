@@ -240,7 +240,7 @@ the `Events` parameter of the `Radial Menu Controller` script also
 attached to the prefab.
 
 An example of the `RadialMenu` Prefab can be viewed in the scene
-`SteamVR_Unity_Toolkit/Examples/030_Radial_Touchpad_Menu`, which
+`SteamVR_Unity_Toolkit/Examples/030_Controls_RadialTouchpadMenu`, which
 displays a radial menu for each controller. The left controller uses
 the `Hide On Release` variable, so it will only be visible if the
 left touchpad is being touched.
@@ -263,6 +263,33 @@ common controller actions. The following public methods are available:
   controller model to the given boolean state. If true is passed
   then the controller model is displayed, if false is passed then
   the controller model is hidden.
+  * **SetControllerOpacity(float alpha):** changes the transparency
+  of the controller model to the given alpha.
+  * **HighlightControllerElement(GameObject element, Color? highlight, float fadeDuration = 0f):**
+  initiates a change in material colour to the `highlight` colour
+  on given `element`. It will lerp to the new colour if a
+  `fadeDuration` is provided.
+  * **UnhighlightControllerElement(GameObject element):** reverts the
+  given controller `element` back to it's original material state.
+  * **ToggleHighlightControllerElement(bool state, GameObject element, Color? highlight = null, float duration = 0f):**
+  a helper method which calls `HighlightControllerElement` if the given
+  `state` is true and calls `UnhighlightControllerElement` if the given
+  `state` is false.
+  * **ToggleHighlightTrigger(bool state, Color? highlight = null, float duration = 0f):**
+  a helper method to toggle the default HTC Vive controller trigger
+  button to the given `highlight` colour over the given `duration`.
+  * **ToggleHighlightGrip(bool state, Color? highlight = null, float duration = 0f):**
+  a helper method to toggle the default HTC Vive controller grip
+  button to the given `highlight` colour over the given `duration`.
+  * **ToggleHighlightTouchpad(bool state, Color? highlight = null, float duration = 0f):**
+  a helper method to toggle the default HTC Vive controller touchpad
+  button to the given `highlight` colour over the given `duration`.
+  * **ToggleHighlightApplicationMenu(bool state, Color? highlight = null, float duration = 0f):**
+  a helper method to toggle the default HTC Vive controller app menu
+  button to the given `highlight` colour over the given `duration`.
+  * **ToggleHighlightController(bool state, Color? highlight = null, float duration = 0f):**
+  a helper method to toggle the entire controller model to the given
+  `highlight` colour over the given `duration`.
   * **TriggerHapticPulse(int duration, ushort strength):**
   initiates the controller to begin vibrating for the given tick
   duration provided in the first parameter at a vibration intensity
@@ -273,6 +300,12 @@ An example of the `VRTK_ControllerActions` script can be viewed in
 the scene `SteamVR_Unity_Toolkit/Examples/016_Controller_HapticRumble`
 which demonstrates the ability to hide a controller model and make
 the controller vibrate for a given length of time at a given intensity.
+
+Another example can be viewed in the scene
+`SteamVR_Unity_Toolkit/Examples/035_Controller_OpacityAndHighlighting`
+which demonstrates the ability to change the opacity of a controller
+model and to highlight specific elements of a controller such as the
+buttons or even the entire controller model.
 
 #### Controller Events (VRTK_ControllerEvents)
 
@@ -400,6 +433,9 @@ The following script parameters are available:
   pointer. If the script is being applied onto a controller then this
   parameter can be left blank as it will be auto populated by the
   controller the script is on at runtime.
+  * **Pointer Material:** The material to use on the rendered version
+  of the pointer. If no material is selected then the default
+  `WorldPointer` material will be used.
   * **Pointer Hit Color:** The colour of the beam when it is colliding
   with a valid target. It can be set to a different colour for each
   controller.
@@ -483,6 +519,9 @@ The following script parameters are available:
   pointer. If the script is being applied onto a controller then this
   parameter can be left blank as it will be auto populated by the
   controller the script is on at runtime.
+  * **Pointer Material:** The material to use on the rendered version
+  of the pointer. If no material is selected then the default
+  `WorldPointer` material will be used.
   * **Pointer Hit Color:** The colour of the beam when it is colliding
   with a valid target. It can be set to a different colour for each
   controller.
@@ -555,6 +594,37 @@ the play area space enabling the user to enter walls.
 The bezier curve generation code is in another script located at
 `SteamVR_Unity_Toolkit/Scripts/Helper/CurveGenerator.cs` and was
 heavily inspired by the tutorial and code from [Catlike Coding].
+
+#### Unity UI Pointer (VRTK_UIPointer)
+
+The UI Pointer provides a mechanism for interacting with Unity UI
+elements on a world canvas. The UI Pointer can be attached to any game
+object the same way in which a World Pointer can be and the UI Pointer
+also requires a controller to initiate the pointer activation and
+pointer click states.
+
+The simplest way to use the UI Pointer is to attach the script to a
+game controller within the `[CameraRig]` along with a Simple Pointer
+as this provides visual feedback as to where the UI ray is pointing.
+
+The UI pointer is activated via the `Pointer` alias on the
+`Controller Events` and the UI pointer click state is triggered via
+the `Use` alias on the `Controller Events` to make things consistent
+with the standard World Pointers.
+
+The following script parameters are available:
+
+  * **Controller:** The controller that will be used to toggle the
+  pointer. If the script is being applied onto a controller then this
+  parameter can be left blank as it will be auto populated by the
+  controller the script is on at runtime.
+
+An example of the `VRTK_UIPointer` script can be viewed in the
+scene `SteamVR_Unity_Toolkit/Examples/034_Controls_InteractingWithUnityUI`.
+The scene uses the `VRTK_UIPointer` script on the right Controller to
+allow for the interaction with Unity UI elements using a Simple Pointer
+beam. The left Controller controls a Simple Pointer on the headset to
+demonstrate gaze interaction with Unity UI elements.
 
 #### Basic Teleporter (VRTK_BasicTeleport)
 
@@ -1269,7 +1339,7 @@ Transforms a game object into a chest with a lid. The direction can be either
 x or z and can also be auto-detected with very high reliability.
 
 The script will instantiate the required Rigidbody, Interactable and
-HingeJoing components automatically in case they do not exist yet. It will
+HingeJoint components automatically in case they do not exist yet. It will
 expect three distinct game objects: a body, a lid and a handle. These should
 be independent and not children of each other.
 
@@ -1281,6 +1351,33 @@ The following script parameters are available:
   * **Lid:** The game object for the lid.
   * **Body:** The game object for the body.
   * **Handle:** The game object for the handle. 
+
+##### VRTK_Drawer
+
+Transforms a game object into a drawer. The direction can be either
+x or z and can also be auto-detected with very high reliability.
+
+The script will instantiate the required Rigidbody, Interactable and
+Joint components automatically in case they do not exist yet. It will
+expect two distinct game objects: a body and a handle. These should
+be independent and not children of each other. The distance to which the
+drawer can be pulled out will automatically set depending on the length
+of it.
+
+It is possible to supply a third game object which is the root of the 
+contents inside the drawer. When this is specified the 
+VRTK_InteractableObject components will be automatically deactivated
+in case the drawer is closed or not yet far enough open. This eliminates
+the issue that a user could grab an object inside a drawer although it
+is closed.
+
+The following script parameters are available:
+
+  * **Direction:** The axis on which the chest should open. All
+  other axis will be frozen.
+  * **Body:** The game object for the body.
+  * **Handle:** The game object for the handle. 
+  * **Content:** The parent game object for the drawer content elements. 
 
 ##### VRTK_Knob
 
@@ -1451,6 +1548,9 @@ The following script parameters are available:
   pointer. If the script is being applied onto a controller then this
   parameter can be left blank as it will be auto populated by the
   controller the script is on at runtime.
+  * **Pointer Material:** The material to use on the rendered version
+  of the pointer. If no material is selected then the default
+  `WorldPointer` material will be used.
   * **Pointer Hit Color:** The colour of the beam when it is colliding
   with a valid target. It can be set to a different colour for each
   controller.
@@ -1722,7 +1822,7 @@ The current examples are:
   tooltips to game objects and to the controllers using the prefabs
   `ObjectTooltip` and `ControllerTooltips`.
 
-  * **030_Radial_Touchpad_Menu:** A scene that demonstrates adding
+  * **030_Controls_RadialTouchpadMenu:** A scene that demonstrates adding
   dynamic radial menus to controllers using the prefab `RadialMenu`.
 
   * **031_CameraRig_HeadsetGazePointer:** A scene that demonstrates
@@ -1742,6 +1842,18 @@ The current examples are:
   * **033_CameraRig_TeleportingInNavMesh:** A scene that demonstrates
   how a baked NavMesh can be used to define the regions that a user
   is allowed to teleport into.
+
+  * **034_Controls_InteractingWithUnityUI:** A scene that demonstrates
+  how to interact with Unity UI elements. The scene uses the
+  `VRTK_UIPointer` script on the right Controller to allow for the
+  interaction with Unity UI elements using a Simple Pointer beam. The
+  left Controller controls a Simple Pointer on the headset to
+  demonstrate gaze interaction with Unity UI elements.
+
+  * **035_Controller_OpacityAndHighlighting:** A scene that
+  demonstrates how to change the opacity of the controller and how
+  to highlight elements of the controller such as the buttons or even
+  the entire controller model.
 
 ## Contributing
 

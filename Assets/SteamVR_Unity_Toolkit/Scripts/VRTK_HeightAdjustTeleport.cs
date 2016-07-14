@@ -44,13 +44,16 @@ namespace VRTK
 
         private float GetTeleportY(Transform target, Vector3 tipPosition)
         {
-            float newY = this.transform.position.y;
+            var newY = this.transform.position.y;
+            var heightOffset = 0.1f;
             //Check to see if the tip is on top of an object
-            if (target && (tipPosition.y + 0.5f) > (target.position.y + (target.localScale.y / 2)))
+            var rayStartPositionOffset = Vector3.up * heightOffset;
+            var ray = new Ray(tipPosition + rayStartPositionOffset, -transform.up);
+            RaycastHit rayCollidedWith;
+            if (target && Physics.Raycast(ray, out rayCollidedWith))
             {
-                newY = tipPosition.y;
+                newY = (tipPosition.y - rayCollidedWith.distance) + heightOffset;
             }
-
             return newY;
         }
 
