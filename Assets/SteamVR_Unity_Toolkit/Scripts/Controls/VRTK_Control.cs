@@ -1,15 +1,24 @@
 ﻿namespace VRTK
 {
     using UnityEngine;
+    using UnityEngine.Events;
 
     [ExecuteInEditMode]
     public abstract class VRTK_Control : MonoBehaviour
     {
+        [System.Serializable]
+        public class ValueChangedEvent : UnityEvent<float> { }
+
+        [System.Serializable]
+        public class DefaultControlEvents
+        {
+            public ValueChangedEvent OnValueChanged;
+        }
+
         private static Color COLOR_OK = Color.yellow;
         private static Color COLOR_ERROR = new Color(1, 0, 0, 0.9f);
 
-        public delegate void ValueChange(float value);
-        public event ValueChange OnValueChanged;
+        public DefaultControlEvents defaultEvents;
 
         abstract protected void InitRequiredComponents();
         abstract protected bool DetectSetup();
@@ -48,27 +57,50 @@
                 // trigger events
                 if (value != oldValue)
                 {
-                    if (OnValueChanged != null)
-                    {
-                        OnValueChanged(getValue());
-                    }
+                    defaultEvents.OnValueChanged.Invoke(getValue());
                 }
             }
         }
 
         public virtual void OnDrawGizmos()
         {
+            if (!enabled)
+            {
+                return;
+            }
+
             bounds = Utilities.GetBounds(transform);
             Gizmos.color = (setupSuccessful) ? COLOR_OK : COLOR_ERROR;
 
             if (setupSuccessful)
             {
-                Gizmos.DrawWireCube(bounds.center, bounds.extents * 2);
+                Gizmos.DrawWireCube(bounds.center, bounds.size);
             }
             else
             {
-                Gizmos.DrawCube(bounds.center, bounds.extents * 2.01f); // draw slightly bigger to eliminate flickering
+                Gizmos.DrawCube(bounds.center, bounds.size * 1.01f); // draw slightly bigger to eliminate flickering
             }
+        }
+
+        protected Vector3 getThirdDirection(Vector3 axis1, Vector3 axis2)
+        {
+            bool xTaken = axis1.x != 0 || axis2.x != 0;
+            bool yTaken = axis1.y != 0 || axis2.y != 0;
+            bool zTaken = axis1.z != 0 || axis2.z != 0;
+
+            if (xTaken && yTaken)
+            {
+                return Vector3.forward;
+            }
+            else if (xTaken && zTaken)
+            {
+                return Vector3.up;
+            }
+            else
+            {
+                return Vector3.right;
+            }
+
         }
     }
 }

@@ -12,7 +12,25 @@ from the Unity Asset Store to be imported into your Unity project.**
   > _money and you get something to play!_
   >
   > **[Buy Holodaze from the Steam Store](http://store.steampowered.com/app/475520)**
+  
+## Games, Apps and Experiences that use this Toolkit
 
+ * Games
+  * QuiVR | [Steam Store Page](http://store.steampowered.com/app/489380/)
+  * Left-Hand Path | [Steam Store Page](http://store.steampowered.com/app/488760/)
+  * Holodaze | [Steam Store Page](http://store.steampowered.com/app/475520/)
+  * ViveSpray | [Steam Store Page](http://store.steampowered.com/app/494830/)
+  * VeeR Pong | [Steam Store Page](http://store.steampowered.com/app/494850)
+  * Emergence Fractal Universe | [Steam Store Page](http://store.steampowered.com/app/500470)
+  * Ocarina of Vive | [Itch.io Store Page](https://tomcat94.itch.io/ocarina-of-vive-shooting-gallery)
+  * Danc<R | [Itch.io Store Page](https://tomcat94.itch.io/dancr-alpha)
+  * Tower Island: Explore, Discover and Disassemble | [Steam Store Page](http://store.steampowered.com/app/487740/)
+  * Virtual Warfighter | [Game website](http://virtual-warfighter.com/)
+  * VR Regatta | [Steam Store Page](http://store.steampowered.com/app/468240/)
+  * Car Car Crash Hands | [Steam Store Page](http://store.steampowered.com/app/472720)
+  * MegaPolice | [Youtube Trailer](https://www.youtube.com/watch?v=d6hCgfMxldY)
+  * The Crystal Nebula | [Steam Store Page](http://store.steampowered.com/app/505660)
+  * Drone Training VR | [Youtube Trailer](https://www.youtube.com/watch?v=A5MFT2JsySc)
 
 ## Quick Start
 
@@ -71,6 +89,7 @@ The available Prefabs are:
   * `ObjectTooltip`
   * `ControllerTooltips`
   * `RadialMenu`
+  * `ConsoleViewerCanvas`
 
 #### FramesPerSecondCanvas
 
@@ -187,6 +206,9 @@ If the transforms for the buttons are not provided, then the script
 will attempt to find the attach transforms on the default controller
 model in the `[CameraRig]` prefab.
 
+If no text is provided for one of the elements then the tooltip for
+that element will be set to disabled.
+
 An example of the `ControllerTooltips` Prefab can be viewed in the
 scene `SteamVR_Unity_Toolkit/Examples/029_Controller_Tooltips` which
 displays two cubes that have an object tooltip added to them along with
@@ -244,6 +266,30 @@ An example of the `RadialMenu` Prefab can be viewed in the scene
 displays a radial menu for each controller. The left controller uses
 the `Hide On Release` variable, so it will only be visible if the
 left touchpad is being touched.
+
+#### ConsoleViewerCanvas
+
+This canvas adds the unity console log to a world game object. To use
+the prefab, it simply needs to be placed into the scene and it will
+be visible in world space. It's also possible to child it to other
+objects such as the controller so it can track where the user is.
+
+It's also recommended to use the Simple Pointer and UI Pointer on a
+controller to interact with the Console Viewer Canvas as it has a
+scrollable text area, a button to clear the log and a checkbox to
+toggle whether the log messages are collapsed.
+
+The following script parameters are available:
+
+  * **Font Size:** The size of the font the log text is displayed in.
+  * **Info Message:** The colour of the text for an info log message.
+  * **Assert Message:** The colour of the text for an assertion
+  log message.
+  * **Warning Message:** The colour of the text for a warning log
+  message.
+  * **Error Message:** The colour of the text for an error log message.
+  * **Exception Message:** The colour of the text for an exception log
+  message.
 
 ### Scripts
 
@@ -377,18 +423,22 @@ buttons are pressed. These action aliases can be mapped to a
 preferred controller button. The aliases are:
 
   * **Toggle Pointer:** Common action of turning a laser pointer on/off
+  * **Pointer Set:** Common action of setting a destination marker from
+  the cursor position of the pointer
   * **Toggle Grab:** Common action of grabbing game objects
   * **Toggle Use:** Common action of using game objects
+  * **UI Click:** Common action of clicking a UI element
   * **Toggle Menu:** Common action of bringing up an in-game menu
 
 Each of the above aliases can have the preferred controller button
 mapped to their usage by selecting it from the drop down on the script
 parameters window.
 
-When the set button is pressed it will emit the actual button event as
-well as an additional event that the alias is "On". When the set button
-is released it will emit the actual button event as well as an
-additional event that the alias button is "Off".
+When the relevant button is pressed it will emit the actual button
+event as well as an additional event that the alias is `On`. When
+the set button is released it will emit the actual button event as
+well as an additional event that the alias button is `Off`. The
+`Pointer Set` alias is only triggered when the button is released.
 
 Listening for these alias events rather than the actual button events
 means it's easier to customise the controller buttons to the actions
@@ -453,6 +503,9 @@ The following script parameters are available:
   pointer colour will change to the `Pointer Miss Color` and the
   `WorldPointerDestinationSet` event will not be triggered, which will
   prevent teleporting into areas where the play area will collide.
+  * **Ignore Target With Tag Or Class:** A string that specifies an
+  object Tag or the name of a Script attached to an obejct and
+  notifies the play area cursor to ignore collisions with the object.
   * **Pointer Visibility:** Determines when the pointer beam should be
   displayed:
    * `On_When_Active` only shows the pointer beam when the Pointer
@@ -474,6 +527,8 @@ The following script parameters are available:
   stopping.
   * **Show Pointer Tip:** Toggle whether the cursor is shown on the end
   of the pointer beam.
+  * **Custom Pointer Cursor:** A custom Game Object can be applied
+  here to use instead of the default sphere for the pointer cursor.
   * **Layers To Ignore:** The layers to ignore when raycasting.
 
 The Simple Pointer object extends the `VRTK_WorldPointer` abstract
@@ -539,6 +594,9 @@ The following script parameters are available:
   pointer colour will change to the `Pointer Miss Color` and the
   `WorldPointerDestinationSet` event will not be triggered, which will
   prevent teleporting into areas where the play area will collide.
+  * **Ignore Target With Tag Or Class:** A string that specifies an
+  object Tag or the name of a Script attached to an obejct and
+  notifies the play area cursor to ignore collisions with the object.
   * **Pointer Visibility:** Determines when the pointer beam should be
   displayed:
    * `On_When_Active` only shows the pointer beam when the Pointer
@@ -609,8 +667,7 @@ as this provides visual feedback as to where the UI ray is pointing.
 
 The UI pointer is activated via the `Pointer` alias on the
 `Controller Events` and the UI pointer click state is triggered via
-the `Use` alias on the `Controller Events` to make things consistent
-with the standard World Pointers.
+the `UI Click` alias on the `Controller Events`.
 
 The following script parameters are available:
 
@@ -673,7 +730,8 @@ scene `SteamVR_Unity_Toolkit/Examples/004_CameraRig_BasicTeleport`.
 The scene uses the `VRTK_SimplePointer` script on the Controllers to
 initiate a laser pointer by pressing the `Touchpad` on the controller
 and when the laser pointer is deactivated (release the `Touchpad`)
-then the user is teleported to the location of the laser pointer tip.
+then the user is teleported to the location of the laser pointer tip
+as this is where the pointer destination marker position is set to.
 
 #### Height Adjustable Teleporter (VRTK_HeightAdjustTeleport)
 
@@ -989,6 +1047,10 @@ The following script parameters are available:
    * `Track Object` doesn't attach the object to the controller via
    a joint, instead it ensures the object tracks the direction of the
    controller, which works well for items that are on hinged joints.
+   * `Rotator Track` also tracks the object but instead of the object
+   tracking the direction of the controller, a force is applied to
+   the object to cause it to rotate. This is ideal for hinged joints
+   on items such as wheels or doors.
    * `Child Of Controller` simply makes the object a child of the
    controller grabbing so it naturally tracks the position of the
    controller motion.
@@ -1347,22 +1409,65 @@ The following script parameters are available:
 
   * **Direction:** The axis on which the chest should open. All
   other axis will be frozen.
-  * **Max:** The maximum opening angle of the chest.
+  * **Max Angle:** The maximum opening angle of the chest.
   * **Lid:** The game object for the lid.
   * **Body:** The game object for the body.
   * **Handle:** The game object for the handle. 
 
+##### VRTK_Door
+
+Transforms a game object into a door with an optional handle attached to an 
+optional frame. The direction can be freely set and also very reliably
+auto-detected.
+
+There are situations when it can be very hard to automatically calculate the
+correct axis and anchor values for the hinge joint. If you encounter such a 
+situation simply add the hinge joint manually and set these two values. All 
+the rest will still be handled by the script.
+
+The script will instantiate the required Rigidbodies, Interactable and
+HingeJoint components automatically in case they do not exist yet. Gizmos
+will indicate the direction.
+
+The following script parameters are available:
+
+  * **Direction:** The axis on which the door should open. 
+  * **Max Angle:** The maximum opening angle of the door.
+  * **Open Inward:** Can the door be pulled to open.
+  * **Open Outward:** Can the door be pushed to open.
+  * **Snapping:** Keeps the door closed with a slight force. This way the door
+  will not gradually open due to some minor physics effect. Does only work if
+  either inward or outward is selected, not both.
+  * **Door:** The game object for the door. Can also be an empty parent or left
+  empty if the script is put onto the actual door mesh. If no colliders exist 
+  yet a collider will tried to be automatically attached to all children that 
+  expose renderers.
+  * **Handles:** The game object for the handles. Can also be an empty parent
+  or left empty. If empty the door can only be moved using the rigidbody mode
+  of the controller. If no collider exists yet a compound collider made up of 
+  all children will try to be calculated but this will fail if the door is 
+  rotated. In that case a manual collider will need to be assigned.
+  * **Frame:** The game object for the frame to which the door is attached.
+  Should only be set if the frame will move as well to ensure that the door 
+  moves along with the frame.
+
 ##### VRTK_Drawer
 
-Transforms a game object into a drawer. The direction can be either
-x or z and can also be auto-detected with very high reliability.
+Transforms a game object into a drawer. The direction can be freely set
+and also auto-detected with very high reliability.
 
 The script will instantiate the required Rigidbody, Interactable and
-Joint components automatically in case they do not exist yet. It will
-expect two distinct game objects: a body and a handle. These should
+Joint components automatically in case they do not exist yet. There are 
+situations when it can be very hard to automatically calculate the
+correct axis for the joint. If you encounter such a situation simply add 
+the configurable joint manually and set the axis. All the rest will still 
+be handled by the script.
+
+It will expect two distinct game objects: a body and a handle. These should
 be independent and not children of each other. The distance to which the
 drawer can be pulled out will automatically set depending on the length
-of it.
+of it. If no body is specified the current object is assumed to be the
+body.
 
 It is possible to supply a third game object which is the root of the 
 contents inside the drawer. When this is specified the 
@@ -1378,6 +1483,9 @@ The following script parameters are available:
   * **Body:** The game object for the body.
   * **Handle:** The game object for the handle. 
   * **Content:** The parent game object for the drawer content elements. 
+  * **Hide Content:** Makes the content invisible while the drawer is closed.
+  * **Snapping:** Keeps the drawer closed with a slight force. This way the 
+  drawer will not gradually open due to some minor physics effect.
 
 ##### VRTK_Knob
 
@@ -1568,6 +1676,9 @@ The following script parameters are available:
   pointer colour will change to the `Pointer Miss Color` and the
   `WorldPointerDestinationSet` event will not be triggered, which will
   prevent teleporting into areas where the play area will collide.
+  * **Ignore Target With Tag Or Class:** A string that specifies an
+  object Tag or the name of a Script attached to an obejct and
+  notifies the play area cursor to ignore collisions with the object.
   * **Pointer Visibility:** Determines when the pointer beam should be
   displayed:
    * `On_When_Active` only shows the pointer beam when the Pointer
@@ -1763,7 +1874,7 @@ The current examples are:
   connecting the object to the controller. Fixed Joint works well for
   holding objects like cubes as they track perfectly to the controller
   whereas a Spring Joint works well on the drawer to give it a natural
-  slide when operating. Finally, the Track Object works well on the
+  slide when operating. Finally, the Rotator Track works well on the
   door to give a natural control over the swing of the door. There is
   also a Character Joint object that can be manipulated into different
   shapes by pulling each of the relevant sections.
