@@ -43,9 +43,10 @@ namespace VRTK
         private Transform headset;
         private bool isActive;
         private bool destinationSetActive;
-        private bool eventsRegistered = false;
 
         private float activateDelayTimer = 0f;
+
+        private VRTK_InteractableObject interactableObject = null;
 
         public virtual void setPlayAreaCursorCollision(bool state)
         {
@@ -62,12 +63,12 @@ namespace VRTK
 
         public virtual bool CanActivate()
         {
-            return (activateDelayTimer <= 0);
+            return (Time.time >= activateDelayTimer);
         }
 
         public virtual void ToggleBeam(bool state)
         {
-            var index = DeviceFinder.GetControllerIndex(gameObject);
+            var index = VRTK_DeviceFinder.GetControllerIndex(gameObject);
             if (state)
             {
                 TurnOnBeam(index);
@@ -93,7 +94,7 @@ namespace VRTK
 
             Utilities.SetPlayerObject(gameObject, VRTK_PlayerObject.ObjectTypes.Controller);
 
-            headset = DeviceFinder.HeadsetTransform();
+            headset = VRTK_DeviceFinder.HeadsetTransform();
             playArea = FindObjectOfType<SteamVR_PlayArea>();
             playAreaCursorBoundaries = new GameObject[4];
         }
@@ -128,11 +129,6 @@ namespace VRTK
 
         protected virtual void Update()
         {
-            if (activateDelayTimer > 0)
-            {
-                activateDelayTimer -= Time.deltaTime;
-            }
-
             if (playAreaCursor && playAreaCursor.activeSelf)
             {
                 UpdateCollider();
@@ -180,7 +176,7 @@ namespace VRTK
 
             OnDestinationMarkerEnter(SetDestinationMarkerEvent(pointerContactDistance, pointerContactTarget, destinationPosition, controllerIndex));
 
-            var interactableObject = pointerContactTarget.GetComponent<VRTK_InteractableObject>();
+            interactableObject = pointerContactTarget.GetComponent<VRTK_InteractableObject>();
             if (interactableObject && interactableObject.pointerActivatesUseAction && interactableObject.holdButtonToUse)
             {
                 interactableObject.StartUsing(gameObject);
@@ -196,7 +192,6 @@ namespace VRTK
 
             OnDestinationMarkerExit(SetDestinationMarkerEvent(pointerContactDistance, pointerContactTarget, destinationPosition, controllerIndex));
 
-            var interactableObject = pointerContactTarget.GetComponent<VRTK_InteractableObject>();
             if (interactableObject && interactableObject.pointerActivatesUseAction && interactableObject.holdButtonToUse)
             {
                 interactableObject.StopUsing(gameObject);
@@ -205,12 +200,12 @@ namespace VRTK
 
         protected virtual void PointerSet()
         {
-            if (!enabled || !destinationSetActive || !pointerContactTarget || activateDelayTimer > 0)
+            if (!enabled || !destinationSetActive || !pointerContactTarget || !CanActivate())
             {
                 return;
             }
 
-            activateDelayTimer = activateDelay;
+            activateDelayTimer = Time.time + activateDelay;
 
             var interactableObject = pointerContactTarget.GetComponent<VRTK_InteractableObject>();
             if (interactableObject && interactableObject.pointerActivatesUseAction)
@@ -240,6 +235,10 @@ namespace VRTK
         {
             var playAreaState = (showPlayAreaCursor ? state : false);
             playAreaCursor.gameObject.SetActive(playAreaState);
+            if (!state && interactableObject && interactableObject.pointerActivatesUseAction && interactableObject.holdButtonToUse && interactableObject.IsUsing())
+            {
+                interactableObject.StopUsing(this.gameObject);
+            }
         }
 
         protected virtual void SetPointerMaterial()
@@ -277,7 +276,7 @@ namespace VRTK
 
         private void TurnOnBeam(uint index)
         {
-            if (enabled && !isActive && activateDelayTimer <= 0)
+            if (enabled && !isActive && CanActivate())
             {
                 setPlayAreaCursorCollision(false);
                 controllerIndex = index;

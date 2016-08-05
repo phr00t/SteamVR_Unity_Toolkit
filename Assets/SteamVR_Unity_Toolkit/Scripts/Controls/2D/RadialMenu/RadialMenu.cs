@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+public delegate void HapticPulseEventHandler(ushort strength);
+
 [ExecuteInEditMode] //Lets us set up buttons from inspector option
 public class RadialMenu : MonoBehaviour
 {
@@ -21,6 +23,11 @@ public class RadialMenu : MonoBehaviour
     public float iconMargin;
     public bool isShown;
     public bool hideOnRelease;
+    public bool executeOnUnclick;
+    [Range(0, 1599)]
+    public ushort baseHapticStrength;
+
+    public event HapticPulseEventHandler FireHapticPulse;
 
     //Has to be public to keep state from editor -> play mode?
     public List<GameObject> menuButtons;
@@ -31,7 +38,7 @@ public class RadialMenu : MonoBehaviour
 
     #region Unity Methods
 
-    private void Start()
+    private void Awake()
     {
         if (Application.isPlaying)
         {
@@ -48,7 +55,7 @@ public class RadialMenu : MonoBehaviour
         //Keep track of pressed button and constantly invoke Hold event
         if (currentPress != -1)
         {
-            buttons[currentPress].Press();
+            buttons[currentPress].OnHold.Invoke();
         }
     }
 
@@ -71,21 +78,39 @@ public class RadialMenu : MonoBehaviour
         {
             ExecuteEvents.Execute(menuButtons[currentHover], pointer, ExecuteEvents.pointerUpHandler);
             ExecuteEvents.Execute(menuButtons[currentHover], pointer, ExecuteEvents.pointerExitHandler);
+            buttons[currentHover].OnHoverExit.Invoke();
+            if (executeOnUnclick && currentPress != -1)
+            {
+                ExecuteEvents.Execute(menuButtons[buttonID], pointer, ExecuteEvents.pointerDownHandler);
+                AttempHapticPulse ((ushort)(baseHapticStrength * 1.666f));
+            }
         }
-        if (evt == ButtonEvent.click) //Click button if click, and keep track of current press
+        if (evt == ButtonEvent.click) //Click button if click, and keep track of current press (executes button action)
         {
             ExecuteEvents.Execute(menuButtons[buttonID], pointer, ExecuteEvents.pointerDownHandler);
             currentPress = buttonID;
-            buttons[buttonID].Click();
+            if (!executeOnUnclick)
+            {
+                buttons[buttonID].OnClick.Invoke ();
+                AttempHapticPulse ((ushort)(baseHapticStrength * 2.5f));
+            }
         }
-        else if (evt == ButtonEvent.unclick) //Clear press id to stop invoking OnHold method
+        else if (evt == ButtonEvent.unclick) //Clear press id to stop invoking OnHold method (hide menu)
         {
             ExecuteEvents.Execute(menuButtons[buttonID], pointer, ExecuteEvents.pointerUpHandler);
             currentPress = -1;
+
+            if (executeOnUnclick)
+            {
+                AttempHapticPulse ((ushort)(baseHapticStrength * 2.5f));
+                buttons[buttonID].OnClick.Invoke ();
+            }
         }
-        else if (evt == ButtonEvent.hoverOn && currentHover != buttonID) // Show hover UI event (darken button etc)
+        else if (evt == ButtonEvent.hoverOn && currentHover != buttonID) // Show hover UI event (darken button etc). Show menu
         {
             ExecuteEvents.Execute(menuButtons[buttonID], pointer, ExecuteEvents.pointerEnterHandler);
+            buttons[buttonID].OnHoverEnter.Invoke();
+            AttempHapticPulse (baseHapticStrength);
         }
         currentHover = buttonID; //Set current hover ID, need this to un-hover if selected button changes
     }
@@ -127,6 +152,7 @@ public class RadialMenu : MonoBehaviour
         {
             var pointer = new PointerEventData(EventSystem.current);
             ExecuteEvents.Execute(menuButtons[currentHover], pointer, ExecuteEvents.pointerExitHandler);
+            buttons[currentHover].OnHoverExit.Invoke();
             currentHover = -1;
         }
     }
@@ -182,6 +208,14 @@ public class RadialMenu : MonoBehaviour
         }
         transform.localScale = Dir * targetScale;
         StopCoroutine("TweenMenuScale");
+    }
+
+    private void AttempHapticPulse(ushort strength)
+    {
+        if (strength > 0 && FireHapticPulse != null)
+        {
+            FireHapticPulse (strength);
+        }
     }
 
     #endregion
@@ -295,18 +329,11 @@ public class RadialMenu : MonoBehaviour
 public class RadialMenuButton
 {
     public Sprite ButtonIcon;
+
     public UnityEvent OnClick;
     public UnityEvent OnHold;
-
-    public void Press()
-    {
-        OnHold.Invoke();
-    }
-
-    public void Click()
-    {
-        OnClick.Invoke();
-    }
+    public UnityEvent OnHoverEnter;
+    public UnityEvent OnHoverExit;
 }
 
 public enum ButtonEvent

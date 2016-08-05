@@ -151,12 +151,12 @@ namespace VRTK
                 objectScript.leftSnapHandle = objectScript.rightSnapHandle;
             }
 
-            if (DeviceFinder.IsControllerOfHand(gameObject, DeviceFinder.ControllerHand.Right))
+            if (VRTK_DeviceFinder.IsControllerOfHand(gameObject, VRTK_DeviceFinder.ControllerHand.Right))
             {
                 return objectScript.rightSnapHandle;
             }
 
-            if (DeviceFinder.IsControllerOfHand(gameObject, DeviceFinder.ControllerHand.Left))
+            if (VRTK_DeviceFinder.IsControllerOfHand(gameObject, VRTK_DeviceFinder.ControllerHand.Left))
             {
                 return objectScript.leftSnapHandle;
             }
@@ -439,7 +439,7 @@ namespace VRTK
             }
             else
             {
-                grabPrecognitionTimer = grabPrecognition;
+                grabPrecognitionTimer = Time.time + grabPrecognition;
                 if (createRigidBodyWhenNotTouching)
                 {
                     interactTouch.ToggleControllerRigidBody(true);
@@ -485,12 +485,15 @@ namespace VRTK
                 SetControllerAttachPoint();
             }
 
-            if (grabPrecognitionTimer > 0)
+            if (grabPrecognitionTimer >= Time.time)
             {
-                grabPrecognitionTimer--;
                 if (GetGrabbableObject() != null)
                 {
                     AttemptGrabObject();
+                    if (GetGrabbedObject() != null)
+                    {
+                        grabPrecognitionTimer = 0f;
+                    }
                 }
             }
         }

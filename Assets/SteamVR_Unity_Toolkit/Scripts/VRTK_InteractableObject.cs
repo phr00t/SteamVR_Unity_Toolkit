@@ -175,6 +175,7 @@ namespace VRTK
         {
             OnInteractableObjectUntouched(SetInteractableObjectEvent(previousTouchingObject));
             touchingObject = null;
+            StopUsingOnControllerChange(previousTouchingObject);
         }
 
         public virtual void Grabbed(GameObject currentGrabbingObject)
@@ -198,6 +199,23 @@ namespace VRTK
             grabbedSnapHandle = null;
             grabbingObject = null;
             LoadPreviousState();
+            StopUsingOnControllerChange(previousGrabbingObject);
+        }
+
+        private void StopUsingOnControllerChange(GameObject previousController)
+        {
+            var usingObject = previousController.GetComponent<VRTK_InteractUse>();
+            if (usingObject)
+            {
+                if (holdButtonToUse)
+                {
+                    usingObject.ForceStopUsing();
+                }
+                else
+                {
+                    usingObject.ForceResetUsing();
+                }
+            }
         }
 
         public virtual void StartUsing(GameObject currentUsingObject)
@@ -304,8 +322,8 @@ namespace VRTK
                 return true;
             }
 
-            var controllerHand = DeviceFinder.GetControllerHandType(controllerCheck.ToString().Replace("_Only", ""));
-            return (DeviceFinder.IsControllerOfHand(actualController, controllerHand));
+            var controllerHand = VRTK_DeviceFinder.GetControllerHandType(controllerCheck.ToString().Replace("_Only", ""));
+            return (VRTK_DeviceFinder.IsControllerOfHand(actualController, controllerHand));
         }
 
         public void ForceStopInteracting()

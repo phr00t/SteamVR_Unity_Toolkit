@@ -92,7 +92,7 @@
 
         public static Transform AddCameraFade()
         {
-            var camera = DeviceFinder.HeadsetCamera();
+            var camera = VRTK_DeviceFinder.HeadsetCamera();
             if (camera && !camera.gameObject.GetComponent<SteamVR_Fade>())
             {
                 camera.gameObject.AddComponent<SteamVR_Fade>();
@@ -112,5 +112,15 @@
             }
         }
 
+        /// <summary>
+        /// Returns the signed angle between the two vectors, v1 and v2, 
+        /// with normal 'n' as the rotation axis.
+        /// </summary>
+        public static float AngleSigned(Vector3 v1, Vector3 v2, Vector3 n)
+        {
+            return Mathf.Atan2(
+                Vector3.Dot(n, Vector3.Cross(v1, v2)),
+                Vector3.Dot(v1, v2)) * Mathf.Rad2Deg;
+        }
     }
 }
