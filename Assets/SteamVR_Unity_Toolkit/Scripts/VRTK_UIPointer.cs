@@ -7,6 +7,7 @@
     public class VRTK_UIPointer : MonoBehaviour
     {
         public VRTK_ControllerEvents controller;
+        public string ignoreCanvasWithTagOrClass;
 
         [HideInInspector]
         public PointerEventData pointerEventData;
@@ -36,9 +37,9 @@
             return eventSystemInput;
         }
 
-        public static void SetWorldCanvas(Canvas canvas)
+        public void SetWorldCanvas(Canvas canvas)
         {
-            if (canvas.renderMode != RenderMode.WorldSpace)
+            if (canvas.renderMode != RenderMode.WorldSpace || canvas.CompareTag(ignoreCanvasWithTagOrClass) || canvas.GetComponent(ignoreCanvasWithTagOrClass) != null)
             {
                 return;
             }
@@ -76,12 +77,12 @@
 
         private void Start()
         {
-            ConfigureEventSystem();
-            ConfigureWorldCanvases();
             if (controller == null)
             {
                 controller = GetComponent<VRTK_ControllerEvents>();
             }
+            ConfigureEventSystem();
+            ConfigureWorldCanvases();
         }
 
         private void ConfigureEventSystem()
@@ -90,7 +91,7 @@
             var eventSystemInput = SetEventSystem(eventSystem);
 
             pointerEventData = new PointerEventData(eventSystem);
-            pointerEventData.pointerId = (int)GetComponent<SteamVR_TrackedObject>().index + 1000;
+            pointerEventData.pointerId = (int)controller.gameObject.GetComponent<SteamVR_TrackedObject>().index + 1000;
             eventSystemInput.pointers.Add(this);
         }
 

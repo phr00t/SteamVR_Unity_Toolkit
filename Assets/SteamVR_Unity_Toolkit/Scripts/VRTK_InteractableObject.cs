@@ -28,7 +28,8 @@ namespace VRTK
             Spring_Joint,
             Track_Object,
             Rotator_Track,
-            Child_Of_Controller
+            Child_Of_Controller,
+            Climbable
         }
 
         public enum AllowedController
@@ -38,11 +39,19 @@ namespace VRTK
             Right_Only
         }
 
+        public enum ControllerHideMode
+        {
+            Default,
+            OverrideHide,
+            OverrideDontHide,
+        }
+
         [Header("Touch Interactions", order = 1)]
         public bool highlightOnTouch = false;
         public Color touchHighlightColor = Color.clear;
         public Vector2 rumbleOnTouch = Vector2.zero;
         public AllowedController allowedTouchControllers = AllowedController.Both;
+        public ControllerHideMode hideControllerOnTouch = ControllerHideMode.Default;
 
         [Header("Grab Interactions", order = 2)]
         public bool isGrabbable = false;
@@ -54,6 +63,7 @@ namespace VRTK
         public bool precisionSnap;
         public Transform rightSnapHandle;
         public Transform leftSnapHandle;
+        public ControllerHideMode hideControllerOnGrab = ControllerHideMode.Default;
 
         [Header("Grab Mechanics", order = 3)]
         public GrabAttachType grabAttachMechanic = GrabAttachType.Fixed_Joint;
@@ -65,10 +75,12 @@ namespace VRTK
 
         [Header("Use Interactions", order = 4)]
         public bool isUsable = false;
+        public bool useOnlyIfGrabbed = false;
         public bool holdButtonToUse = true;
         public bool pointerActivatesUseAction = false;
         public Vector2 rumbleOnUse = Vector2.zero;
         public AllowedController allowedUseControllers = AllowedController.Both;
+        public ControllerHideMode hideControllerOnUse = ControllerHideMode.Default;
 
         public event InteractableObjectEventHandler InteractableObjectTouched;
         public event InteractableObjectEventHandler InteractableObjectUntouched;
@@ -83,7 +95,7 @@ namespace VRTK
         protected GameObject usingObject = null;
 
         private int usingState = 0;
-        private Dictionary<string, Color> originalObjectColours;
+        private Dictionary<string, Color[]> originalObjectColours;
 
         private Transform grabbedSnapHandle;
         private Transform trackPoint;
@@ -94,6 +106,19 @@ namespace VRTK
         private bool previousKinematicState;
         private bool previousIsGrabbable;
         private bool forcedDropped;
+
+        public bool CheckHideMode(bool defaultMode, ControllerHideMode overrideMode)
+        {
+            switch (overrideMode)
+            {
+                case VRTK_InteractableObject.ControllerHideMode.OverrideDontHide:
+                    return false;
+                case VRTK_InteractableObject.ControllerHideMode.OverrideHide:
+                    return true;
+            }
+            // default: do not change
+            return defaultMode;
+        }
 
         public virtual void OnInteractableObjectTouched(InteractableObjectEventArgs e)
         {
@@ -287,6 +312,16 @@ namespace VRTK
             return (grabAttachMechanic == GrabAttachType.Track_Object || grabAttachMechanic == GrabAttachType.Rotator_Track);
         }
 
+        public bool AttachIsClimbObject()
+        {
+            return (grabAttachMechanic == GrabAttachType.Climbable);
+        }
+
+        public bool AttachIsStaticObject()
+        {
+            return AttachIsClimbObject(); // only one at the moment
+        }
+
         public void ZeroVelocity()
         {
             if (GetComponent<Rigidbody>())
@@ -301,13 +336,20 @@ namespace VRTK
             if (grabbingObject == null)
             {
                 previousParent = transform.parent;
-                previousKinematicState = rb.isKinematic;
+
+                if (rb)
+                {
+                    previousKinematicState = rb.isKinematic;
+                }
             }
         }
 
         public void ToggleKinematic(bool state)
         {
-            rb.isKinematic = state;
+            if (rb)
+            {
+                rb.isKinematic = state;
+            }
         }
 
         public GameObject GetGrabbingObject()
@@ -366,20 +408,22 @@ namespace VRTK
         {
             rb = GetComponent<Rigidbody>();
 
-            // If there is no rigid body, add one and set it to 'kinematic'.
-            if (!rb)
+            if (!AttachIsStaticObject())
             {
-                rb = gameObject.AddComponent<Rigidbody>();
-                rb.isKinematic = true;
+                // If there is no rigid body, add one and set it to 'kinematic'.
+                if (!rb)
+                {
+                    rb = gameObject.AddComponent<Rigidbody>();
+                    rb.isKinematic = true;
+                }
+                rb.maxAngularVelocity = float.MaxValue;
             }
-            rb.maxAngularVelocity = float.MaxValue;
             forcedDropped = false;
         }
 
         protected virtual void Start()
         {
             originalObjectColours = StoreOriginalColors();
-            RegisterTeleporters();
         }
 
         protected virtual void Update()
@@ -411,17 +455,22 @@ namespace VRTK
             }
         }
 
-        protected virtual void OnDisable()
-        {
-            ForceStopInteracting();
-        }
-
         protected virtual void OnEnable()
         {
-            if(forcedDropped)
+            RegisterTeleporters();
+            if (forcedDropped)
             {
                 LoadPreviousState();
             }
+        }
+
+        protected virtual void OnDisable()
+        {
+            foreach (var teleporter in FindObjectsOfType<VRTK_BasicTeleport>())
+            {
+                teleporter.Teleported -= new TeleportEventHandler(OnTeleported);
+            }
+            ForceStopInteracting();
         }
 
         protected virtual void OnJointBreak(float force)
@@ -436,7 +485,10 @@ namespace VRTK
                 transform.parent = previousParent;
                 forcedDropped = false;
             }
-            rb.isKinematic = previousKinematicState;
+            if (rb)
+            {
+                rb.isKinematic = previousKinematicState;
+            }
             if (!isSwappable)
             {
                 isGrabbable = previousIsGrabbable;
@@ -468,39 +520,59 @@ namespace VRTK
             return (GetComponents<Renderer>().Length > 0 ? GetComponents<Renderer>() : GetComponentsInChildren<Renderer>());
         }
 
-        private Dictionary<string, Color> StoreOriginalColors()
+        private Dictionary<string, Color[]> StoreOriginalColors()
         {
-            Dictionary<string, Color> colors = new Dictionary<string, Color>();
+            var colors = new Dictionary<string, Color[]>();
             foreach (Renderer renderer in GetRendererArray())
             {
-                if (renderer.material.HasProperty("_Color"))
+                colors[renderer.gameObject.name] = new Color[renderer.materials.Length];
+
+                for (int i = 0; i < renderer.materials.Length; i++)
                 {
-                    colors[renderer.gameObject.name] = renderer.material.color;
+                    var material = renderer.materials[i];
+                    if (material.HasProperty("_Color"))
+                    {
+                        colors[renderer.gameObject.name][i] = material.color;
+                    }
                 }
             }
             return colors;
         }
 
-        private Dictionary<string, Color> BuildHighlightColorArray(Color color)
+        private Dictionary<string, Color[]> BuildHighlightColorArray(Color color)
         {
-            Dictionary<string, Color> colors = new Dictionary<string, Color>();
+            var colors = new Dictionary<string, Color[]>();
             foreach (Renderer renderer in GetRendererArray())
             {
-                if (renderer.material.HasProperty("_Color"))
+                colors[renderer.gameObject.name] = new Color[renderer.materials.Length];
+                for (int i = 0; i < renderer.materials.Length; i++)
                 {
-                    colors[renderer.gameObject.name] = color;
+                    var material = renderer.materials[i];
+                    if (material.HasProperty("_Color"))
+                    {
+                        colors[renderer.gameObject.name][i] = color;
+                    }
                 }
             }
             return colors;
         }
 
-        private void ChangeColor(Dictionary<string, Color> colors)
+        private void ChangeColor(Dictionary<string, Color[]> colors)
         {
             foreach (Renderer renderer in GetRendererArray())
             {
-                if (renderer.material.HasProperty("_Color") && colors.ContainsKey(renderer.gameObject.name))
+                if (!colors.ContainsKey(renderer.gameObject.name))
                 {
-                    renderer.material.color = colors[renderer.gameObject.name];
+                    continue;
+                }
+
+                for (int i = 0; i < renderer.materials.Length; i++)
+                {
+                    var material = renderer.materials[i];
+                    if (material.HasProperty("_Color"))
+                    {
+                        material.color = colors[renderer.gameObject.name][i];
+                    }
                 }
             }
         }
