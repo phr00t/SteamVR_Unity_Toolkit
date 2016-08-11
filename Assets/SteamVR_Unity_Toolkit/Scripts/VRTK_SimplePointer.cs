@@ -28,6 +28,16 @@ namespace VRTK
         private GameObject pointer;
         private GameObject pointerTip;
         private Vector3 pointerTipScale = new Vector3(0.05f, 0.05f, 0.05f);
+        private float pointerOverallScale = 1f;
+
+        public void setOverallScale(float scale) {
+            if( pointerHolder != null ) {
+                Vector3 ls = pointerHolder.transform.localScale;
+                ls.Set(scale, scale, scale);
+                pointerHolder.transform.localScale = ls;
+            }
+            pointerOverallScale = scale;
+        }
 
         // material of customPointerCursor (if defined)
         private Material customPointerMaterial;
@@ -66,6 +76,7 @@ namespace VRTK
             Utilities.SetPlayerObject(pointerHolder, VRTK_PlayerObject.ObjectTypes.Pointer);
             pointerHolder.transform.parent = transform;
             pointerHolder.transform.localPosition = Vector3.zero;
+            setOverallScale(pointerOverallScale);
 
             pointer = GameObject.CreatePrimitive(PrimitiveType.Cube);
             pointer.transform.name = string.Format("[{0}]WorldPointer_SimplePointer_Pointer", gameObject.name);
