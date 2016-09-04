@@ -32,7 +32,7 @@ This canvas adds a frames per second text element to the headset. To use the pre
   * Find the `Canvas` component
   * Set the `Render Camera` parameter to `Camera (eye)` which can be found in the `[CameraRig]` prefab.
 
-There are a number of parameters that can be set on the Prefab. Expanding the `FramesPerSecondCanvas` object in the hierarchy view shows the child `FramesPerSecondText` obejct and clicking on that reveals additional paramters which can be set via the `FramesPerSecondViewer` script (which can be found in `SteamVR_Unity_Toolkit/Scripts/Helper/FramesPerSecondViewer`)
+There are a number of parameters that can be set on the Prefab. Expanding the `FramesPerSecondCanvas` object in the hierarchy view shows the child `FramesPerSecondText` object and clicking on that reveals additional parameters which can be set via the `FramesPerSecondViewer` script (which can be found in `VRTK/Scripts/Helper/FramesPerSecondViewer`)
 
 ### Inspector Parameters
 
@@ -46,7 +46,7 @@ There are a number of parameters that can be set on the Prefab. Expanding the `F
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/018_CameraRig_FramesPerSecondCounter` displays the frames per second in the centre of the headset view. Pressing the trigger generates a new sphere and pressing the touchpad generates ten new spheres. Eventually when lots of spheres are present the FPS will drop and demonstrate the prefab.
+`VRTK/Examples/018_CameraRig_FramesPerSecondCounter` displays the frames per second in the centre of the headset view. Pressing the trigger generates a new sphere and pressing the touchpad generates ten new spheres. Eventually when lots of spheres are present the FPS will drop and demonstrate the prefab.
 
 ---
 
@@ -56,14 +56,14 @@ There are a number of parameters that can be set on the Prefab. Expanding the `F
 
 This adds a UI element into the World Space that can be used to provide additional information about an object by providing a piece of text with a line drawn to a destination point.
 
-There are a number of parameters that can be set on the Prefab which are provided by the `SteamVR_Unity_Toolkit/Scripts/VRTK_ObjectTooltip` script which is applied to the prefab.
+There are a number of parameters that can be set on the Prefab which are provided by the `VRTK/Scripts/VRTK_ObjectTooltip` script which is applied to the prefab.
 
 ### Inspector Parameters
 
   * **Display Text:** The text that is displayed on the tooltip.
   * **Font Size:** The size of the text that is displayed.
   * **Container Size:** The size of the tooltip container where `x = width` and `y = height`.
-  * **Draw Line From:** An optional transform of where to start drawing the line from. If one is not provided the the centre of the tooltip is used for the initial line position.
+  * **Draw Line From:** An optional transform of where to start drawing the line from. If one is not provided the centre of the tooltip is used for the initial line position.
   * **Draw Line To:** A transform of another object in the scene that a line will be drawn from the tooltip to, this helps denote what the tooltip is in relation to. If no transform is provided and the tooltip is a child of another object, then the parent object's transform will be used as this destination position.
   * **Line Width:** The width of the line drawn between the tooltip and the destination transform.
   * **Font Color:** The colour to use for the text on the tooltip.
@@ -72,7 +72,7 @@ There are a number of parameters that can be set on the Prefab which are provide
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/029_Controller_Tooltips` displays two cubes that have an object tooltip added to them along with tooltips that have been added to the controllers.
+`VRTK/Examples/029_Controller_Tooltips` displays two cubes that have an object tooltip added to them along with tooltips that have been added to the controllers.
 
 ---
 
@@ -86,7 +86,7 @@ If the transforms for the buttons are not provided, then the script will attempt
 
 If no text is provided for one of the elements then the tooltip for that element will be set to disabled.
 
-There are a number of parameters that can be set on the Prefab which are provided by the `SteamVR_Unity_Toolkit/Scripts/VRTK_ControllerTooltips` script which is applied to the prefab.
+There are a number of parameters that can be set on the Prefab which are provided by the `VRTK/Scripts/VRTK_ControllerTooltips` script which is applied to the prefab.
 
 ### Inspector Parameters
 
@@ -104,7 +104,7 @@ There are a number of parameters that can be set on the Prefab which are provide
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/029_Controller_Tooltips` displays two cubes that have an object tooltip added to them along with tooltips that have been added to the controllers.
+`VRTK/Examples/029_Controller_Tooltips` displays two cubes that have an object tooltip added to them along with tooltips that have been added to the controllers.
 
 ---
 
@@ -118,7 +118,7 @@ If the RadialMenu is placed inside a controller, it will automatically find a `V
 
 The RadialMenu can also be placed inside a `VRTK_InteractableObject` for the RadialMenu to be anchored to a world object instead of the controller. The `Events Manager` parameter will automatically be set if the RadialMenu is a child of an InteractableObject, but it can also be set manually in the inspector. Additionally, for the RadialMenu to be anchored in the world, the `RadialMenuController` script in the prefab must be replaced with `VRTK_IndependentRadialMenuController`. See the script information for further details on making the RadialMenu independent of the controllers.
 
-There are a number of parameters that can be set on the Prefab which are provided by the `SteamVR_Unity_Toolkit/Scripts/Controls/2D/RadialMenu/RadialMenu.cs` script which is applied to the `Panel` child of the prefab.
+There are a number of parameters that can be set on the Prefab which are provided by the `VRTK/Scripts/Controls/2D/RadialMenu/RadialMenu.cs` script which is applied to the `Panel` child of the prefab.
 
 ### Inspector Parameters
 
@@ -130,8 +130,8 @@ There are a number of parameters that can be set on the Prefab which are provide
    * **OnHoverExit():** Methods to invoke when button leaves the hovered state.
   * **Button Prefab:** The base for each button in the menu, by default set to a dynamic circle arc that will fill up a portion of the menu.
   * **Button Thickness:** Percentage of the menu the buttons should fill, 1.0 is a pie slice, 0.1 is a thin ring.
-  * **Button Color:** The background color of the buttons, default is white.
-  * **Offset Distance:** The distance the buttons should move away from the center. This creates space between the individual buttons.
+  * **Button Color:** The background colour of the buttons, default is white.
+  * **Offset Distance:** The distance the buttons should move away from the centre. This creates space between the individual buttons.
   * **Offset Rotation:** The additional rotation of the Radial Menu.
   * **Rotate Icons:** Whether button icons should rotate according to their arc or be vertical compared to the controller.
   * **Icon Margin:** The margin in pixels that the icon should keep within the button.
@@ -143,7 +143,7 @@ There are a number of parameters that can be set on the Prefab which are provide
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/030_Controls_RadialTouchpadMenu` displays a radial menu for each controller. The left controller uses the `Hide On Release` variable, so it will only be visible if the left touchpad is being touched. It also uses the `Execute On Unclick` variable to delay execution until the touchpad button is unclicked. The example scene also contains a demonstration of anchoring the RadialMenu to an interactable cube instead of a controller.
+`VRTK/Examples/030_Controls_RadialTouchpadMenu` displays a radial menu for each controller. The left controller uses the `Hide On Release` variable, so it will only be visible if the left touchpad is being touched. It also uses the `Execute On Unclick` variable to delay execution until the touchpad button is unclicked. The example scene also contains a demonstration of anchoring the RadialMenu to an interactable cube instead of a controller.
 
 ### VRTK_IndependentRadialMenuController
 This script inherited from `RadialMenuController` and therefore can be used instead of `RadialMenuController` to allow the RadialMenu to be anchored to any object, not just a controller. The RadialMenu will show when a controller is near the object and the buttons can be clicked with the `Use Alias` button. The menu also automatically rotates towards the user.
@@ -161,7 +161,7 @@ To convert the default `RadialMenu` prefab to be independent of the controllers:
   * **Collider Radius Multiplier:** This times the size of the RadialMenu is the size of the collider.
   * **Hide After Execution:** If true, after a button is clicked, the RadialMenu will hide.
   * **Offset Radius Multiplier:** How far away from the object the menu should be placed, relative to the size of the RadialMenu.
-  * **Rotate Towards:** The object the RadialMenu should face towards. If left empty, it will automatically try to find the Camera (eye) object within the SteamVR CameraRig.
+  * **Rotate Towards:** The object the RadialMenu should face towards. If left empty, it will automatically try to find the Headset Camera.
 
 ---
 
@@ -196,6 +196,8 @@ This directory contains all of the toolkit scripts that add VR functionality to 
  * [VRTK_UIPointer](#unity-ui-pointer-vrtk_uipointer)
  * [VRTK_BasicTeleport](#basic-teleporter-vrtk_basicteleport)
  * [VRTK_HeightAdjustTeleport](#height-adjustable-teleporter-vrtk_heightadjustteleport)
+ * [VRTK_HeadsetCollision](#headset-collision-vrtk_headsetcollision)
+ * [VRTK_HeadsetFade](#headset-fade-vrtk_headsetfade)
  * [VRTK_HeadsetCollisionFade](#headset-collision-fade-vrtk_headsetcollisionfade)
  * [VRTK_PlayerPresence](#player-presence-vrtk_playerpresence)
  * [VRTK_TouchpadWalking](#touchpad-movement-vrtk_touchpadwalking)
@@ -216,7 +218,7 @@ This directory contains all of the toolkit scripts that add VR functionality to 
 
 The Controller Events script deals with events that the game controller is sending out.
 
-The Controller Events script is attached to a Controller object within the `[CameraRig]` prefab and provides event listeners for every button press on the controller (excluding the System Menu button as this cannot be overriden and is always used by Steam).
+The Controller Events script is attached to a Controller object within the `[CameraRig]` prefab and provides event listeners for every button press on the controller (excluding the System Menu button as this cannot be overridden and is always used by Steam).
 
 When a controller button is pressed, the script emits an event to denote that the button has been pressed which allows other scripts to listen for this event without needing to implement any controller logic. When a controller button is released, the script also emits an event denoting that the button has been released.
 
@@ -231,6 +233,7 @@ The script also has a public boolean pressed state for the buttons to allow the 
   * **UI Click Button:** The button to use for the action of clicking a UI element.
   * **Menu Toggle Button:** The button to use for the action of bringing up an in-game menu.
   * **Axis Fidelity:** The amount of fidelity in the changes on the axis, which is defaulted to 1. Any number higher than 2 will probably give too sensitive results.
+  * **Trigger Click Threshold:** The level on the trigger axis to reach before a click is registered.
 
 ### Class Variables
 
@@ -282,6 +285,40 @@ The script also has a public boolean pressed state for the buttons to allow the 
   * `AliasUIClickOn` - Emitted when the UI click alias button is pressed.
   * `AliasUIClickOff` - Emitted when the UI click alias button is released.
 
+### Unity Events
+
+Adding the `VRTK_ControllerEvents_UnityEvents` component to `VRTK_ControllerEvents` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnTriggerPressed` - Emits the TriggerPressed class event.
+  * `OnTriggerReleased` - Emits the TriggerReleased class event.
+  * `OnTriggerTouchStart` - Emits the TriggerTouchStart class event.
+  * `OnTriggerTouchEnd` - Emits the TriggerTouchEnd class event.
+  * `OnTriggerHairlineStart` - Emits the TriggerHairlineStart class event.
+  * `OnTriggerHairlineEnd` - Emits the TriggerHairlineEnd class event.
+  * `OnTriggerClicked` - Emits the TriggerClicked class event.
+  * `OnTriggerUnclicked` - Emits the TriggerUnclicked class event.
+  * `OnTriggerAxisChanged` - Emits the TriggerAxisChanged class event.
+  * `OnApplicationMenuPressed` - Emits the ApplicationMenuPressed class event.
+  * `OnApplicationMenuReleased` - Emits the ApplicationMenuReleased class event.
+  * `OnGripPressed` - Emits the GripPressed class event.
+  * `OnGripReleased` - Emits the GripReleased class event.
+  * `OnTouchpadPressed` - Emits the TouchpadPressed class event.
+  * `OnTouchpadReleased` - Emits the TouchpadReleased class event.
+  * `OnTouchpadTouchStart` - Emits the TouchpadTouchStart class event.
+  * `OnTouchpadTouchEnd` - Emits the TouchpadTouchEnd class event.
+  * `OnTouchpadAxisChanged` - Emits the TouchpadAxisChanged class event.
+  * `OnAliasPointerOn` - Emits the AliasPointerOn class event.
+  * `OnAliasPointerOff` - Emits the AliasPointerOff class event.
+  * `OnAliasPointerSet` - Emits the AliasPointerSet class event.
+  * `OnAliasGrabOn` - Emits the AliasGrabOn class event.
+  * `OnAliasGrabOff` - Emits the AliasGrabOff class event.
+  * `OnAliasUseOn` - Emits the AliasUseOn class event.
+  * `OnAliasUseOff` - Emits the AliasUseOff class event.
+  * `OnAliasMenuOn` - Emits the AliasMenuOn class event.
+  * `OnAliasMenuOff` - Emits the AliasMenuOff class event.
+  * `OnAliasUIClickOn` - Emits the AliasUIClickOn class event.
+  * `OnAliasUIClickOff` - Emits the AliasUIClickOff class event.
+
 #### Event Payload
 
   * `uint controllerIndex` - The index of the controller that was used.
@@ -311,7 +348,7 @@ The GetVelocity method is useful for getting the current velocity of the physica
   * Returns
    * `Vector3` - A 3 dimensional vector containing the current real world physical controller angular (rotational) velocity.
 
-The GetAngularVelocity method is useful for getting the current rotational velocity of the phyiscal game controller. This can be useful for determining which way the controller is being rotated and at what speed the rotation is occuring.
+The GetAngularVelocity method is useful for getting the current rotational velocity of the physical game controller. This can be useful for determining which way the controller is being rotated and at what speed the rotation is occurring.
 
 #### GetTouchpadAxis/0
 
@@ -370,7 +407,7 @@ The AnyButtonPressed method returns true if any of the controller buttons are be
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/002_Controller_Events` shows how the events are utilised and listened to. The accompanying example script can be viewed in `SteamVR_Unity_Toolkit/Examples/Resources/Scripts/VRTK_ControllerEvents_ListenerExample.cs`.
+`VRTK/Examples/002_Controller_Events` shows how the events are utilised and listened to. The accompanying example script can be viewed in `VRTK/Examples/Resources/Scripts/VRTK_ControllerEvents_ListenerExample.cs`.
 
 ---
 
@@ -398,7 +435,7 @@ The IsControllerVisible method returns true if the controller is currently visib
   > `public void ToggleControllerModel(bool state, GameObject grabbedChildObject)`
 
   * Parameters
-   * `bool state` - The visibility state to toggle the controller to, `true` will make the controller visibile - `false` will hide the controller model.
+   * `bool state` - The visibility state to toggle the controller to, `true` will make the controller visible - `false` will hide the controller model.
    * `GameObject grabbedChildObject` - If an object is being held by the controller then this can be passed through to prevent hiding the grabbed game object as well.
   * Returns
    * _none_
@@ -427,7 +464,7 @@ The SetControllerOpacity method allows the opacity of the controller model to be
   * Returns
    * _none_
 
-The HighlightControllerElement method allows for an element of the controller to have it's colour changed to simulate a highlighting effect of that element on the controller. It's useful for being able to draw a user's attention to a specific button on the controller.
+The HighlightControllerElement method allows for an element of the controller to have its colour changed to simulate a highlighting effect of that element on the controller. It's useful for being able to draw a user's attention to a specific button on the controller.
 
 #### UnhighlightControllerElement/1
 
@@ -438,7 +475,7 @@ The HighlightControllerElement method allows for an element of the controller to
   * Returns
    * _none_
 
-The UnhighlightControllerElement method is the inverse of the HighlightControllerElement method and resets the controller element to it's original colour.
+The UnhighlightControllerElement method is the inverse of the HighlightControllerElement method and resets the controller element to its original colour.
 
 #### ToggleHighlightControllerElement/4
 
@@ -452,7 +489,7 @@ The UnhighlightControllerElement method is the inverse of the HighlightControlle
   * Returns
    * _none_
 
-The ToggleHighlightControllerElement method is a shortcut method that makes it easier to highlight and unhighlight a controller element in a single method rather than using the HighlightControllerElement and UnhighlightControllerElement methods seperately.
+The ToggleHighlightControllerElement method is a shortcut method that makes it easier to highlight and unhighlight a controller element in a single method rather than using the HighlightControllerElement and UnhighlightControllerElement methods separately.
 
 #### ToggleHighlightTrigger/3
 
@@ -545,9 +582,9 @@ The TriggerHapticPulse/3 method calls a haptic pulse for a specified amount of t
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/016_Controller_HapticRumble` demonstrates the ability to hide a controller model and make the controller vibrate for a given length of time at a given intensity.
+`VRTK/Examples/016_Controller_HapticRumble` demonstrates the ability to hide a controller model and make the controller vibrate for a given length of time at a given intensity.
 
-`SteamVR_Unity_Toolkit/Examples/035_Controller_OpacityAndHighlighting`demonstrates the ability to change the opacity of a controller model and to highlight specific elements of a controller such as the buttons or even the entire controller model.
+`VRTK/Examples/035_Controller_OpacityAndHighlighting`demonstrates the ability to change the opacity of a controller model and to highlight specific elements of a controller such as the buttons or even the entire controller model.
 
 ---
 
@@ -559,16 +596,16 @@ The Device Finder offers a collection of static methods that can be called to fi
 
 ### Class Methods
 
-#### ControllerByIndex/1
+#### TrackedIndexIsController/1
 
-  > `public static SteamVR_TrackedObject ControllerByIndex(uint index)`
+  > `public static bool TrackedIndexIsController(uint index)`
 
   * Parameters
-   * `uint index` - The index of the tracked object to find. Must be of type `ETrackedDeviceClass.Controller`.
+   * `uint index` - The index of the tracked object to find.
   * Returns
-   * `SteamVR_TrackedObject` - The object that matches the given index.
+   * `bool` - Returns true if the given index is a tracked object of type controller.
 
-The ControllerByIndex method is used to find a SteamVR_TrackedObject by it's generated index. This is useful for finding controllers when only the index is known.
+The TrackedIndexIsController method is used to determine if a given tracked object index belongs to a tracked controller.
 
 #### GetControllerIndex/1
 
@@ -583,14 +620,25 @@ The GetControllerIndex method is used to find the index of a given controller ob
 
 #### TrackedObjectByIndex/1
 
-  > `public static SteamVR_TrackedObject TrackedObjectByIndex(uint controllerIndex)`
+  > `public static GameObject TrackedObjectByIndex(uint index)`
 
   * Parameters
    * `uint index` - The index of the tracked object to find.
   * Returns
-   * `SteamVR_TrackedObject` - The object that matches the given index.
+   * `GameObject` - The tracked object that matches the given index.
 
-The TrackedObjectByIndex method is used to find a SteamVR_TrackedObject by it's generated index. This method will loop over all SteamVR_TrackedObjects in the scene until the relevant index is found so it is less efficient than using `ControllerByIndex/1` to find a controller, but is useful for finding other tracked objects.
+The TrackedObjectByIndex method is used to find the GameObject of a tracked object by its generated index.
+
+#### TrackedObjectOrigin/1
+
+  > `public static Transform TrackedObjectOrigin(GameObject controller)`
+
+  * Parameters
+   * `GameObject obj` - The GameObject to get the origin for.
+  * Returns
+   * `Transform` - The transform of the tracked object's origin or if an origin is not set then the transform parent.
+
+The TrackedObjectOrigin method is used to find the tracked object's origin.
 
 #### GetControllerHandType/1
 
@@ -648,6 +696,17 @@ The HeadsetTransform method is used to retrieve the transform for the VR Headset
 
 The HeadsetCamera method is used to retrieve the transform for the VR Camera in the scene.
 
+#### PlayAreaTransform/0
+
+  > `public static Transform PlayAreaTransform()`
+
+  * Parameters
+   * _none_
+  * Returns
+   * `Transform` - The transform of the VR Play Area component.
+
+The PlayAreaTransform method is used to retrieve the transform for the play area in the scene.
+
 ---
 
 ## Simple Pointer (VRTK_SimplePointer)
@@ -671,7 +730,7 @@ The Simple Pointer script can be attached to a Controller object within the `[Ca
   * **Show Play Area Cursor:** If this is enabled then the play area boundaries are displayed at the tip of the pointer beam in the current pointer colour.
   * **Play Area Cursor Dimensions:** Determines the size of the play area cursor and collider. If the values are left as zero then the Play Area Cursor will be sized to the calibrated Play Area space.
   * **Handle Play Area Cursor Collisions:** If this is ticked then if the play area cursor is colliding with any other object then the pointer colour will change to the `Pointer Miss Color` and the `WorldPointerDestinationSet` event will not be triggered, which will prevent teleporting into areas where the play area will collide.
-  * **Ignore Target With Tag Or Class:** A string that specifies an object Tag or the name of a Script attached to an obejct and notifies the play area cursor to ignore collisions with the object.
+  * **Ignore Target With Tag Or Class:** A string that specifies an object Tag or the name of a Script attached to an object and notifies the play area cursor to ignore collisions with the object.
   * **Pointer Visibility:** Determines when the pointer beam should be displayed:
    * `On_When_Active` only shows the pointer beam when the Pointer button on the controller is pressed.
    * `Always On` ensures the pointer beam is always visible but pressing the Pointer button on the controller initiates the destination set event.
@@ -686,7 +745,7 @@ The Simple Pointer script can be attached to a Controller object within the `[Ca
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/003_Controller_SimplePointer` shows the simple pointer in action and code examples of how the events are utilised and listened to can be viewed in the script `SteamVR_Unity_Toolkit/Examples/Resources/Scripts/VRTK_ControllerPointerEvents_ListenerExample.cs`
+`VRTK/Examples/003_Controller_SimplePointer` shows the simple pointer in action and code examples of how the events are utilised and listened to can be viewed in the script `VRTK/Examples/Resources/Scripts/VRTK_ControllerPointerEvents_ListenerExample.cs`
 
 ---
 
@@ -701,7 +760,7 @@ The laser beam is activated by default by pressing the `Touchpad` on the control
 
 The Bezier Pointer script can be attached to a Controller object within the `[CameraRig]` prefab and the Controller object also requires the `VRTK_ControllerEvents` script to be attached as it uses this for listening to the controller button events for enabling and disabling the beam. It is also possible to attach the Bezier Pointer script to another object (like the `[CameraRig]/Camera (head)`) to enable other objects to project the beam. The controller parameter must be entered with the desired controller to toggle the beam if this is the case.
 
-  > The bezier curve generation code is in another script located at `SteamVR_Unity_Toolkit/Scripts/Helper/CurveGenerator.cs` and was heavily inspired by the tutorial and code from [Catlike Coding].
+  > The bezier curve generation code is in another script located at `VRTK/Scripts/Helper/CurveGenerator.cs` and was heavily inspired by the tutorial and code from [Catlike Coding].
 
 ### Inspector Parameters
 
@@ -720,10 +779,10 @@ The Bezier Pointer script can be attached to a Controller object within the `[Ca
    * `Always Off` ensures the pointer beam is never visible but the destination point is still set and pressing the Pointer button on the controller still initiates the destination set event.
   * **Hold Button To Activate:** If this is checked then the pointer beam will be activated on first press of the pointer alias button and will stay active until the pointer alias button is pressed again. The destination set event is emitted when the beam is deactivated on the second button press.
   * **Activate Delay:** The time in seconds to delay the pointer beam being able to be active again. Useful for preventing constant teleportation.
-  * **Pointer Length:** The length of the projected forward pointer beam, this is basically the distance able to point from the controller potiion.
+  * **Pointer Length:** The length of the projected forward pointer beam, this is basically the distance able to point from the controller position.
   * **Pointer Density:** The number of items to render in the beam bezier curve. A high number here will most likely have a negative impact of game performance due to large number of rendered objects.
   * **Show Pointer Cursor:** A cursor is displayed on the ground at the location the beam ends at, it is useful to see what height the beam end location is, however it can be turned off by toggling this.
-  * **Pointer Cursor Radius:** The size of the ground pointer cursor. This number also affects the size of the objects in the bezier curve beam. The larger the raduis, the larger the objects will be.
+  * **Pointer Cursor Radius:** The size of the ground pointer cursor. This number also affects the size of the objects in the bezier curve beam. The larger the radius, the larger the objects will be.
   * **Beam Curve Offset:** The amount of height offset to apply to the projected beam to generate a smoother curve even when the beam is pointing straight.
   * **Custom Pointer Tracer:** A custom Game Object can be applied here to use instead of the default sphere for the beam tracer. The custom Game Object will match the rotation of the controller.
   * **Custom Pointer Cursor:** A custom Game Object can be applied here to use instead of the default flat cylinder for the pointer cursor.
@@ -733,11 +792,11 @@ The Bezier Pointer script can be attached to a Controller object within the `[Ca
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/009_Controller_BezierPointer` is used in conjunction with the Height Adjust Teleporter shows how it is possible to traverse different height objects using the curved pointer without needing to see the top of the object.
+`VRTK/Examples/009_Controller_BezierPointer` is used in conjunction with the Height Adjust Teleporter shows how it is possible to traverse different height objects using the curved pointer without needing to see the top of the object.
 
-`SteamVR_Unity_Toolkit/Examples/012_Controller_PointerWithAreaCollision` shows how a Bezier Pointer with the Play Area Cursor and Collision Detection enabled can be used to traverse a game area but not allow teleporting into areas where the walls or other objects would fall into the play area space enabling the user to enter walls.
+`VRTK/Examples/012_Controller_PointerWithAreaCollision` shows how a Bezier Pointer with the Play Area Cursor and Collision Detection enabled can be used to traverse a game area but not allow teleporting into areas where the walls or other objects would fall into the play area space enabling the user to enter walls.
 
-`SteamVR_Unity_Toolkit/Examples/036_Controller_CustomCompoundPointer' shows how to display an object (a teleport beam) only if the teleport location is valid, and can create an animated trail along the tracer curve.
+`VRTK/Examples/036_Controller_CustomCompoundPointer' shows how to display an object (a teleport beam) only if the teleport location is valid, and can create an animated trail along the tracer curve.
 
 ---
 
@@ -757,13 +816,34 @@ The UI pointer is activated via the `Pointer` alias on the `Controller Events` a
 
   * **Controller:** The controller that will be used to toggle the pointer. If the script is being applied onto a controller then this parameter can be left blank as it will be auto populated by the controller the script is on at runtime.
   * **Ignore Canvas With Tag Or Class:** A string that specifies a canvas Tag or the name of a Script attached to a canvas and denotes that any world canvases that contain this tag or script will be ignored by the UI Pointer.
-  * **Hold Button To Activate:** If this is checked then the ui pointer beam will be activated on first press of the pointer alias button and will stay active until the pointer alias button is pressed again.
+  * **Activation Mode:** Determines when the UI pointer should be active:
+   * `Hold_Button` only activates the UI Pointer when the Pointer button on the controller is pressed and held down.
+   * `Toggle_Button` activates the UI Pointer on the first click of the Pointer button on the controller and it stays active until the Pointer button is clicked again.
+   * `Always_On` the UI Pointer is always active regardless of whether the Pointer button on the controller is pressed or not.
+
+### Class Events
+
+  * `UIPointerElementEnter` - Emitted when the UI Pointer is colliding with a valid UI element.
+  * `UIPointerElementExit` - Emitted when the UI Pointer is no longer colliding with any valid UI elements.
+
+### Unity Events
+
+Adding the `VRTK_UIPointer_UnityEvents` component to `VRTK_UIPointer` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnUIPointerElementEnter` - Emits the UIPointerElementEnter class event.
+  * `OnUIPointerElementExit` - Emits the UIPointerElementExit class event.
+
+#### Event Payload
+
+  * `uint controllerIndex` - The index of the controller that was used.
+  * `GameObject currentTarget` - The current UI element that the pointer is colliding with.
+  * `GameObject previousTarget` - The previous UI element that the pointer was colliding with.
 
 ### Class Methods
 
 #### SetEventSystem/1
 
-  > `public static VRTK_EventSystemVRInput SetEventSystem(EventSystem eventSystem)`
+  > `public VRTK_EventSystemVRInput SetEventSystem(EventSystem eventSystem)`
 
   * Parameters
    * `EventSystem eventSystem` - The global Unity event system to be used by the UI pointers.
@@ -774,10 +854,10 @@ The SetEventSystem method is used to set up the global Unity event system for th
 
 #### SetWorldCanvas/1
 
-  > `public static void SetWorldCanvas(Canvas canvas)`
+  > `public void SetWorldCanvas(Canvas canvas)`
 
   * Parameters
-   * `Canvas canvas` - The canvas object to initialse for use with the UI pointers. Must be of type `WorldSpace`.
+   * `Canvas canvas` - The canvas object to initialise for use with the UI pointers. Must be of type `WorldSpace`.
   * Returns
    * _none_
 
@@ -796,7 +876,7 @@ The PointerActive method determines if the ui pointer beam should be active base
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/034_Controls_InteractingWithUnityUI` uses the `VRTK_UIPointer` script on the right Controller to allow for the interaction with Unity UI elements using a Simple Pointer beam. The left Controller controls a Simple Pointer on the headset to demonstrate gaze interaction with Unity UI elements.
+`VRTK/Examples/034_Controls_InteractingWithUnityUI` uses the `VRTK_UIPointer` script on the right Controller to allow for the interaction with Unity UI elements using a Simple Pointer beam. The left Controller controls a Simple Pointer on the headset to demonstrate gaze interaction with Unity UI elements.
 
 ---
 
@@ -810,16 +890,23 @@ The Basic Teleport script is attached to the `[CameraRig]` prefab and requires a
 
 ### Inspector Parameters
 
-  * **Blink Transition Speed:** The fade blink speed can be changed on the basic teleport script to provide a customised teleport experience. Setting the speed to 0 will mean no fade blink effect is present. The fade is achieved via the `SteamVR_Fade.cs` script in the SteamVR Unity Plugin scripts.
+  * **Blink Transition Speed:** The fade blink speed can be changed on the basic teleport script to provide a customised teleport experience. Setting the speed to 0 will mean no fade blink effect is present.
   * **Distance Blink Delay:** A range between 0 and 32 that determines how long the blink transition will stay blacked out depending on the distance being teleported. A value of 0 will not delay the teleport blink effect over any distance, a value of 32 will delay the teleport blink fade in even when the distance teleported is very close to the original position. This can be used to simulate time taking longer to pass the further a user teleports. A value of 16 provides a decent basis to simulate this to the user.
   * **Headset Position Compensation:** If this is checked then the teleported location will be the position of the headset within the play area. If it is unchecked then the teleported location will always be the centre of the play area even if the headset position is not in the centre of the play area.
-  * **Ignore Target With Tag Or Class:** A string that specifies an object Tag or the name of a Script attached to an obejct and notifies the teleporter that the destination is to be ignored so the user cannot teleport to that location. It also ensure the pointer colour is set to the miss colour.
+  * **Ignore Target With Tag Or Class:** A string that specifies an object Tag or the name of a Script attached to an object and notifies the teleporter that the destination is to be ignored so the user cannot teleport to that location. It also ensure the pointer colour is set to the miss colour.
   * **Nav Mesh Limit Distance:** The max distance the nav mesh edge can be from the teleport destination to be considered valid. If a value of `0` is given then the nav mesh restriction will be ignored..
 
 ### Class Events
 
   * `Teleporting` - Emitted when the teleport process has begun.
   * `Teleported` - Emitted when the teleport process has successfully completed.
+
+### Unity Events
+
+Adding the `VRTK_BasicTeleport_UnityEvents` component to `VRTK_BasicTeleport` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnTeleporting` - Emits the Teleporting class event.
+  * `OnTeleported` - Emits the Teleported class event.
 
 #### Event Payload
 
@@ -840,7 +927,7 @@ The InitDestinationSetListener method is used to register the teleport script to
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/004_CameraRig_BasicTeleport` uses the `VRTK_SimplePointer` script on the Controllers to initiate a laser pointer by pressing the `Touchpad` on the controller and when the laser pointer is deactivated (release the `Touchpad`) then the user is teleported to the location of the laser pointer tip as this is where the pointer destination marker position is set to.
+`VRTK/Examples/004_CameraRig_BasicTeleport` uses the `VRTK_SimplePointer` script on the Controllers to initiate a laser pointer by pressing the `Touchpad` on the controller and when the laser pointer is deactivated (release the `Touchpad`) then the user is teleported to the location of the laser pointer tip as this is where the pointer destination marker position is set to.
 
 ---
 
@@ -858,20 +945,156 @@ Like the basic teleporter the Height Adjust Teleport script is attached to the `
   * **Blink Transition Speed:** The fade blink speed on teleport.
   * **Distance Blink Delay:** A range between 0 and 32 that determines how long the blink transition will stay blacked out depending on the distance being teleported. A value of 0 will not delay the teleport blink effect over any distance, a value of 32 will delay the teleport blink fade in even when the distance teleported is very close to the original position. This can be used to simulate time taking longer to pass the further a user teleports. A value of 16 provides a decent basis to simulate this to the user.
   * **Headset Position Compensation:** If this is checked then the teleported location will be the position of the headset within the play area. If it is unchecked then the teleported location will always be the centre of the play area even if the headset position is not in the centre of the play area.
-  * **Ignore Target With Tag Or Class:** A string that specifies an object Tag or the name of a Script attached to an obejct and notifies the teleporter that the destination is to be ignored so the user cannot teleport to that location. It also ensure the pointer colour is set to the miss colour.
+  * **Ignore Target With Tag Or Class:** A string that specifies an object Tag or the name of a Script attached to an object and notifies the teleporter that the destination is to be ignored so the user cannot teleport to that location. It also ensure the pointer colour is set to the miss colour.
   * **Nav Mesh Limit Distance:** The max distance the nav mesh edge can be from the teleport destination to be considered valid. If a value of `0` is given then the nav mesh restriction will be ignored..
-  * **Play Space Falling:** Checks if the user steps off an object into a part of their play area that is not on the object then they are automatically teleported down to the nearest floor. The `Play Space Falling` option also works in the opposite way that if the user's headset is above an object then the user is teleported automatically on top of that object, which is useful for simulating climbing stairs without needing to use the pointer beam location. If this option is turned off then the user can hover in mid air at the same y position of the object they are standing on.
+  * **Play Space Falling:** Checks if the user steps off an object into a part of their play area that is not on the object then they are automatically teleported down to the nearest floor. The `Play Space Falling` option also works in the opposite way that if the user's headset is above an object then the user is teleported automatically on top of that object, which is useful for simulating climbing stairs without needing to use the pointer beam location. If this option is turned off then the user can hover in mid-air at the same y position of the object they are standing on.
   * **Use Gravity**: allows for gravity based falling when the distance is greater than `Gravity Fall Height`.
   * **Gravity Fall Height**: Fall distance needed before gravity based falling can be triggered.
   * **Blink Y Threshold:** The `y` distance between the floor and the headset that must change before the fade transition is initiated. If the new user location is at a higher distance than the threshold then the headset blink transition will activate on teleport. If the new user location is within the threshold then no blink transition will happen, which is useful for walking up slopes, meshes and terrains where constant blinking would be annoying.
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/007_CameraRig_HeightAdjustTeleport` has a collection of varying height objects that the user can either walk up and down or use the laser pointer to climb on top of them.
+`VRTK/Examples/007_CameraRig_HeightAdjustTeleport` has a collection of varying height objects that the user can either walk up and down or use the laser pointer to climb on top of them.
 
-`SteamVR_Unity_Toolkit/Examples/010_CameraRig_TerrainTeleporting` shows how the teleportation of a user can also traverse terrain colliders.
+`VRTK/Examples/010_CameraRig_TerrainTeleporting` shows how the teleportation of a user can also traverse terrain colliders.
 
-`SteamVR_Unity_Toolkit/Examples/020_CameraRig_MeshTeleporting` shows how the teleportation of a user can also traverse mesh colliders.
+`VRTK/Examples/020_CameraRig_MeshTeleporting` shows how the teleportation of a user can also traverse mesh colliders.
+
+---
+
+## Headset Collision (VRTK_HeadsetCollision)
+
+### Overview
+
+The purpose of the Headset Collision is to detect when the user's VR headset collides with another game object.
+
+If the headset is colliding then the teleport action is also disabled to prevent cheating by clipping through walls.
+
+  > **Unity Version Information**
+  > * If using `Unity 5.3` or older then the Headset Collision script is attached to the `Camera (head)` object within the `[CameraRig]` prefab.
+  > * If using `Unity 5.4` or newer then the Headset Collision script is attached to the `Camera (eye)` object within the `[CameraRig]->Camera (head)` prefab.
+
+### Inspector Parameters
+
+  * **Ignore Target With Tag Or Class:** A string that specifies an object Tag or the name of a Script attached to an object and will be ignored on headset collision.
+
+### Class Events
+
+  * `HeadsetCollisionDetect` - Emitted when the user's headset collides with another game object.
+  * `HeadsetCollisionEnded` - Emitted when the user's headset stops colliding with a game object.
+
+### Unity Events
+
+Adding the `VRTK_HeadsetCollision_UnityEvents` component to `VRTK_HeadsetCollision` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnHeadsetCollisionDetect` - Emits the HeadsetCollisionDetect class event.
+  * `OnHeadsetCollisionEnded` - Emits the HeadsetCollisionEnded class event.
+
+#### Event Payload
+
+  * `Collider collider` - The Collider of the game object the headset has collided with.
+  * `Transform currentTransform` - The current Transform of the object that the Headset Collision Fade script is attached to (Camera).
+
+### Class Methods
+
+#### IsColliding/0
+
+  > `public virtual bool IsColliding()`
+
+  * Parameters
+   * _none_
+  * Returns
+   * `bool` Returns true if the headset is currently colliding with a valid game object.
+
+The IsColliding method is used to determine if the headset is currently colliding with a valid game object and returns true if it is and false if it is not colliding with anything or an invalid game object.
+
+### Example
+
+`VRTK/Examples/011_Camera_HeadSetCollisionFading` has collidable walls around the play area and if the user puts their head into any of the walls then the headset will fade to black.
+
+---
+
+## Headset Fade (VRTK_HeadsetFade)
+
+### Overview
+
+The purpose of the Headset Fade is to change the colour of the headset view to a specified colour over a given duration and to also unfade it back to being transparent. The `Fade` and `Unfade` methods can only be called via another script and this Headset Fade script does not do anything on initialisation to fade or unfade the headset view.
+
+  > **Unity Version Information**
+  > * If using `Unity 5.3` or older then the Headset Fade script is attached to the `Camera (head)` object within the `[CameraRig]` prefab.
+  > * If using `Unity 5.4` or newer then the Headset Fade script is attached to the `Camera (eye)` object within the `[CameraRig]->Camera (head)` prefab.
+
+### Class Events
+
+  * `HeadsetFadeStart` - Emitted when the user's headset begins to fade to a given colour.
+  * `HeadsetFadeComplete` - Emitted when the user's headset has completed the fade and is now fully at the given colour.
+  * `HeadsetUnfadeStart` - Emitted when the user's headset begins to unfade back to a transparent colour.
+  * `HeadsetUnfadeComplete` - Emitted when the user's headset has completed unfading and is now fully transparent again.
+
+### Unity Events
+
+Adding the `VRTK_HeadsetFade_UnityEvents` component to `VRTK_HeadsetFade` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnHeadsetFadeStart` - Emits the HeadsetFadeStart class event.
+  * `OnHeadsetFadeComplete` - Emits the HeadsetFadeComplete class event.
+  * `OnHeadsetUnfadeStart` - Emits the HeadsetUnfadeStart class event.
+  * `OnHeadsetUnfadeComplete` - Emits the HeadsetUnfadeComplete class event.
+
+#### Event Payload
+
+  * `float timeTillComplete` - A float that is the duration for the fade/unfade process has remaining.
+  * `Transform currentTransform` - The current Transform of the object that the Headset Fade script is attached to (Camera).
+
+### Class Methods
+
+#### IsFaded/0
+
+  > `public virtual bool IsFaded()`
+
+  * Parameters
+   * _none_
+  * Returns
+   * `bool` Returns true if the headset is currently fading or faded.
+
+The IsFaded method returns true if the headset is currently fading or has completely faded and returns false if it is completely unfaded.
+
+#### IsTransitioning/0
+
+  > `public virtual bool IsTransitioning()`
+
+  * Parameters
+   * _none_
+  * Returns
+   * `bool` Returns true if the headset is currently in the process of fading or unfading.
+
+The IsTransitioning method returns true if the headset is currently fading or unfading and returns false if it is completely faded or unfaded.
+
+#### Fade/2
+
+  > `public virtual void Fade(Color color, float duration)`
+
+  * Parameters
+   * `Color color` - The colour to fade the headset view to.
+   * `float duration` - The time in seconds to take to complete the fade transition.
+  * Returns
+   * _none_
+
+The Fade method initiates a change in the colour of the headset view to the given colour over a given duration.
+
+#### Unfade/1
+
+  > `public virtual void Unfade(float duration)`
+
+  * Parameters
+   * `float duration` - The time in seconds to take to complete the unfade transition.
+  * Returns
+   * _none_
+
+The Unfade method initiates the headset to change colour back to a transparent colour over a given duration.
+
+### Example
+
+`VRTK/Examples/011_Camera_HeadSetCollisionFading` has collidable walls around the play area and if the user puts their head into any of the walls then the headset will fade to black.
 
 ---
 
@@ -879,11 +1102,9 @@ Like the basic teleporter the Height Adjust Teleport script is attached to the `
 
 ### Overview
 
-The purpose of the Headset Collision Fade is to detect when the user's VR headset collides with another game object and fades the screen to a solid colour. This is to deal with a user putting their head into a game object and seeing the inside of the object clipping, which is an undesired effect.
+The purpose of the Headset Collision Fade is to detect when the user's VR headset collides with another game object and fades the screen to a solid colour. This is to deal with a user putting their head into a game object and seeing the inside of the object clipping, which is an undesired effect. The reasoning behind this is if the user puts their head where it shouldn't be, then fading to a colour (e.g. black) will make the user realise they've done something wrong and they'll probably naturally step backwards.
 
-The reasoning behind this is if the user puts their head where it shouldn't be, then fading to a colour (e.g. black) will make the user realise they've done something wrong and they'll probably naturally step backwards.
-
-If the headset is colliding then the teleport action is also disabled to prevent cheating by clipping through walls.
+The Headset Collision Fade uses a composition of the Headset Collision and Headset Fade scripts to derrive the desired behaviour.
 
   > **Unity Version Information**
   > * If using `Unity 5.3` or older then the Headset Collision Fade script is attached to the `Camera (head)` object within the `[CameraRig]` prefab.
@@ -893,19 +1114,11 @@ If the headset is colliding then the teleport action is also disabled to prevent
 
   * **Blink Transition Speed:** The fade blink speed on collision.
   * **Fade Color:** The colour to fade the headset to on collision.
-  * **Ignore Target With Tag Or Class:** A string that specifies an object Tag or the name of a Script attached to an obejct and will prevent the object from fading the headset view on collision.
+  * **Ignore Target With Tag Or Class:** A string that specifies an object Tag or the name of a Script attached to an object and will prevent the object from fading the headset view on collision.
+  
+### Example
 
-### Class Events
-
-  * `HeadsetCollisionDetect` - Emitted when the user's headset collides with another game object.
-  * `HeadsetCollisionEnded` -  Emitted when the user's headset stops colliding with a game object.
-
-#### Event Payload
-
-  * `Collider collider` - The Collider of the game object the headset has collided with.
-  * `Transform currentTransform` - The current Transform of the object that the Headset Collision Fade script is attached to (Camera).
-
-`SteamVR_Unity_Toolkit/Examples/011_Camera_HeadSetCollisionFading` has collidable walls around the play area and if the user puts their head into any of the walls then the headset will fade to black.
+`VRTK/Examples/011_Camera_HeadSetCollisionFading` has collidable walls around the play area and if the user puts their head into any of the walls then the headset will fade to black.
 
 ---
 
@@ -926,11 +1139,18 @@ The concept that the VR user has a physical in game presence which is accomplish
 
   * `PresenceFallStarted` - Emitted when a gravity based fall has started
   * `PresenceFallEnded` - Emitted when a gravity based fall has ended
-  
+
+### Unity Events
+
+Adding the `VRTK_PlayerPresence_UnityEvents` component to `VRTK_PlayerPresence` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnPresenceFallStarted` - Emits the PresenceFallStarted class event.
+  * `OnPresenceFallEnded` - Emits the PresenceFallEnded class event.
+
 #### Event Payload
 
   * `float fallDistance` - The total height the player has dropped from a gravity based fall.
-  
+
 ### Class Methods
 
 #### SetFallingPhysicsOnlyParams/1
@@ -952,9 +1172,9 @@ The SetFallingPhysicsOnlyParams method will toggle the `fallingPhysicsOnly` clas
    * _none_
   * Returns
    * `bool` - Returns if the player is in a physics falling state or not.
-   
+
 The IsFalling method will return if the class is using physics based falling and is currently in a falling state.
-   
+
 #### GetHeadset/0
 
   > `public Transform GetHeadset()`
@@ -975,7 +1195,7 @@ The GetHeadset method returns the transform of the object representing the VR he
   * Returns
    * _none_
 
-The StartPhysicsFall method initializes the physics based fall state, enable physics and send out the `PresenceFallStarted` event. 
+The StartPhysicsFall method initializes the physics based fall state, enable physics and send out the `PresenceFallStarted` event.
 
 #### StopPhysicsFall/0
 
@@ -989,8 +1209,8 @@ The StartPhysicsFall method initializes the physics based fall state, enable phy
 The StopPhysicsFall method ends the physics based fall state, disables physics and send out the `PresenceFallEnded` event.
 
 ### Example
-  
-`SteamVR_Unity_Toolkit/Examples/017_CameraRig_TouchpadWalking` has a collection of walls and slopes that can be traversed by the user with the touchpad but the user cannot pass through the objects as they are collidable and the rigidbody physics won't allow the intersection to occur.
+
+`VRTK/Examples/017_CameraRig_TouchpadWalking` has a collection of walls and slopes that can be traversed by the user with the touchpad but the user cannot pass through the objects as they are collidable and the rigidbody physics won't allow the intersection to occur.
 
 ---
 
@@ -1011,7 +1231,7 @@ If the Headset Collision Fade script has been applied to the Camera prefab, then
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/017_CameraRig_TouchpadWalking` has a collection of walls and slopes that can be traversed by the user with the touchpad. There is also an area that can only be traversed if the user is crouching. Standing up in this crouched area will cause the user to appear back at their last good known position.
+`VRTK/Examples/017_CameraRig_TouchpadWalking` has a collection of walls and slopes that can be traversed by the user with the touchpad. There is also an area that can only be traversed if the user is crouching. Standing up in this crouched area will cause the user to appear back at their last good known position.
 
 ---
 
@@ -1021,12 +1241,12 @@ If the Headset Collision Fade script has been applied to the Camera prefab, then
 
 This script allows the playArea to move with the user. The `[CameraRig]` is only moved when at the edge of a defined circle. Aims to create a virtually bigger play area. To use this add this script to the `[CameraRig`] prefab.
 
-There is an additional script `VRTK_RoomExtender_PlayAreaGizmo` which can be attachted to the `[CameraRig`] to visualize the extended playArea within the Editor.
+There is an additional script `VRTK_RoomExtender_PlayAreaGizmo` which can be attached to the `[CameraRig`] to visualize the extended playArea within the Editor.
 
 ### Inspector Parameters
 
   * **Movement Function:** This determines the type of movement used by the extender and can be one of the following options:
-   * **Nonlinear:**  Moves the head with a non linear drift movement.
+   * **Nonlinear:**  Moves the head with a non-linear drift movement.
    * **LinearDirect:** Moves the headset in a direct linear movement.
   * **Additional Movement Enabled:** This is the a public variable to enable the additional movement. This can be used in other scripts to toggle the `[CameraRig]` movement.
   * **Additional Movement Enabled On Button Press:** This configures the controls of the RoomExtender. If this is true then the touchpad needs to be pressed to enable it. If this is false then it is disabled by pressing the touchpad.
@@ -1036,7 +1256,7 @@ There is an additional script `VRTK_RoomExtender_PlayAreaGizmo` which can be att
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/028_CameraRig_RoomExtender` shows how the RoomExtender script is controlled by a VRTK_RoomExtender_Controller Example script located at both controllers. Pressing the `Touchpad` on the controller activates the Room Extender. The Additional Movement Multiplier is changed based on the touch distance to the center of the touchpad.
+`VRTK/Examples/028_CameraRig_RoomExtender` shows how the RoomExtender script is controlled by a VRTK_RoomExtender_Controller Example script located at both controllers. Pressing the `Touchpad` on the controller activates the Room Extender. The Additional Movement Multiplier is changed based on the touch distance to the centre of the touchpad.
 
 ---
 
@@ -1050,10 +1270,10 @@ The basis of this script is to provide a simple mechanism for identifying object
 
 ### Inspector Parameters
 
-#### Touch Interactions
+#### Touch Options
   * **Highlight On Touch:** The object will only highlight when a controller touches it if this is checked.
-  * **Touch Highlight Color:** The colour to highlight the object when it is touched. This colour will override any globally set color (for instance on the `VRTK_InteractTouch` script).
-  * **Rumble On Touch:** The haptic feedback on the controller can be triggered upon touching the object, the `x` denotes the length of time, the `y` denotes the strength of the pulse. (x and y will be replaced in the future with a custom editor)
+  * **Touch Highlight Color:** The colour to highlight the object when it is touched. This colour will override any globally set colour (for instance on the `VRTK_InteractTouch` script).
+  * **Rumble On Touch:** The haptic feedback on the controller can be triggered upon touching the object, the `Strength` denotes the strength of the pulse, the `Duration` denotes the length of time.
   * **Allowed Touch Controllers:** Determines which controller can initiate a touch action. The options available are:
    * `Both` means both controllers will register a touch.
    * `Left_Only` means only the left controller will register a touch.
@@ -1063,44 +1283,45 @@ The basis of this script is to provide a simple mechanism for identifying object
    * `Override Hide` means hiding the controller when touched, overriding controller settings.
    * `Override Dont Hide` means *not* hiding the controller when touched, overriding controller settings.
 
-#### Grab Interactions
+#### Grab Options
   * **Is Grabbable:** Determines if the object can be grabbed.
   * **Is Droppable:** Determines if the object can be dropped by the controller grab button being used. If this is unchecked then it's not possible to drop the item once it's picked up using the controller button. It is still possible for the item to be dropped if the Grab Attach Mechanic is a joint and too much force is applied to the object and the joint is broken. To prevent this it's better to use the Child Of Controller mechanic.
   * **Is Swappable:** Determines if the object can be swapped between controllers when it is picked up. If it is unchecked then the object must be dropped before it can be picked up by the other controller.
   * **Hold Button To Grab:** If this is checked then the grab button on the controller needs to be continually held down to keep grabbing. If this is unchecked the grab button toggles the grab action with one button press to grab and another to release.
-  * **Rumble On Grab:** The haptic feedback on the controller can be triggered upon grabbing the object, the `x` denotes the length of time, the `y` denotes the strength of the pulse. (x and y will be replaced in the future with a custom editor).
+  * **Grab Override Button:** If this is set to `Undefined` then the global grab alias button will grab the object, setting it to any other button will ensure the override button is used to grab this specific interactable object.
+  * **Rumble On Grab:** The haptic feedback on the controller can be triggered upon grabbing the object, the `Strength` denotes the strength of the pulse, the `Duration` denotes the length of time.
   * **Allowed Grab Controllers:** Determines which controller can initiate a grab action. The options available are:
    * `Both` means both controllers are allowed to grab.
    * `Left_Only` means only the left controller is allowed to grab.
    * `Right_Only` means only the right controller is allowed to grab.
   * **Precision_Snap:** If this is checked then when the controller grabs the object, it will grab it with precision and pick it up at the particular point on the object the controller is touching.
-  * **Right Snap Handle:** A Transform provided as an empty game object which must be the child of the item being grabbed and serves as an orientation point to rotate and position the grabbed item in relation to the right handed controller. If no Right Snap Handle is provided but a Left Snap Handle is provided, then the Left Snap Handle will be used in place. If no Snap Handle is provided then the object will be grabbed at it's central point.
-  * **Left Snap Handle:** A Transform provided as an empty game object which must be the child of the item being grabbed and serves as an orientation point to rotate and position the grabbed item in relation to the left handed controller. If no Left Snap Handle is provided but a Right Snap Handle is provided, then the Right Snap Handle will be used in place. If no Snap Handle is provided then the object will be grabbed at it's central point.
+  * **Right Snap Handle:** A Transform provided as an empty game object which must be the child of the item being grabbed and serves as an orientation point to rotate and position the grabbed item in relation to the right handed controller. If no Right Snap Handle is provided but a Left Snap Handle is provided, then the Left Snap Handle will be used in place. If no Snap Handle is provided then the object will be grabbed at its central point. Not required for `Precision Snap`.
+  * **Left Snap Handle:** A Transform provided as an empty game object which must be the child of the item being grabbed and serves as an orientation point to rotate and position the grabbed item in relation to the left handed controller. If no Left Snap Handle is provided but a Right Snap Handle is provided, then the Right Snap Handle will be used in place. If no Snap Handle is provided then the object will be grabbed at its central point. Not required for `Precision Snap`.
   * **Hide Controller On Grab:** Optionally override the controller setting (hide when grabbed):
    * `Default` means using controller settings.
    * `Override Hide` means hiding the controller when grabbed, overriding controller settings.
    * `Override Dont Hide` means *not* hiding the controller when grabbed, overriding controller settings.
-
-#### Grab Mechanics
+  * **Stay Grabbed On Teleport:** If this is checked then the object will stay grabbed to the controller when a teleport occurs. If it is unchecked then the object will be released when a teleport occurs.
   * **Grab Attach Type:** This determines how the grabbed item will be attached to the controller when it is grabbed.
    * `Fixed Joint` attaches the object to the controller with a fixed joint meaning it tracks the position and rotation of the controller with perfect 1:1 tracking.
-   * `Spring Joint` attaches the object to the controller with a spring joint meaing there is some flexibility between the item and the controller force moving the item. This works well when attempting to pull an item rather than snap the item directly to the controller. It creates the illusion that the item has resistence to move it.
+   * `Spring Joint` attaches the object to the controller with a spring joint meaning there is some flexibility between the item and the controller force moving the item. This works well when attempting to pull an item rather than snap the item directly to the controller. It creates the illusion that the item has resistance to move it.
    * `Track Object` doesn't attach the object to the controller via a joint, instead it ensures the object tracks the direction of the controller, which works well for items that are on hinged joints.
    * `Rotator Track` also tracks the object but instead of the object tracking the direction of the controller, a force is applied to the object to cause it to rotate. This is ideal for hinged joints on items such as wheels or doors.
    * `Child Of Controller` simply makes the object a child of the controller grabbing so it naturally tracks the position of the controller motion.
    * `Climbable` non-rigid body interactable object used to allow player climbing.
-  * **Detach Threshold:** The force amount when to detach the object from the grabbed controller. If the controller tries to exert a force higher than this threshold on the object (from pulling it through another object or pushing it into another object) then the joint holding the object to the grabbing controller will break and the object will no longer be grabbed. This also works with Tracked Object grabbing but determines how far the controller is from the object before breaking the grab.
-  * **Spring Joint Strength:** The strength of the spring holding the object to the controller. A low number will mean the spring is very loose and the object will require more force to move it, a high number will mean a tight spring meaning less force is required to move it.
-  * **Spring Joint Damper:** The amount to damper the spring effect when using a Spring Joint grab mechanic. A higher number here will reduce the oscillation effect when moving jointed Interactable Objects.
+  * **Detach Threshold:** The force amount when to detach the object from the grabbed controller. If the controller tries to exert a force higher than this threshold on the object (from pulling it through another object or pushing it into another object) then the joint holding the object to the grabbing controller will break and the object will no longer be grabbed. This also works with Tracked Object grabbing but determines how far the controller is from the object before breaking the grab. Only required for `Fixed Joint`, `Spring Joint`, `Track Object` and `Rotator Track`.
+  * **Spring Joint Strength:** The strength of the spring holding the object to the controller. A low number will mean the spring is very loose and the object will require more force to move it, a high number will mean a tight spring meaning less force is required to move it. Only required for `Spring Joint`.
+  * **Spring Joint Damper:** The amount to damper the spring effect when using a Spring Joint grab mechanic. A higher number here will reduce the oscillation effect when moving jointed Interactable Objects. Only required for `Spring Joint`.
   * **Throw Multiplier:** An amount to multiply the velocity of the given object when it is thrown. This can also be used in conjunction with the Interact Grab Throw Multiplier to have certain objects be thrown even further than normal (or thrown a shorter distance if a number below 1 is entered).
   * **On Grab Collision Delay:** The amount of time to delay collisions affecting the object when it is first grabbed. This is useful if a game object may get stuck inside another object when it is being grabbed.
 
-#### Use Interactions
+#### Use Options
   * **Is Usable:** Determines if the object can be used.
   * **Use Only If Grabbed:** If this is checked the object can be used only if it was grabbed before.
   * **Hold Button To Use:** If this is checked then the use button on the controller needs to be continually held down to keep using. If this is unchecked the the use button toggles the use action with one button press to start using and another to stop using.
+  * **Use Override Button:** If this is set to `Undefined` then the global use alias button will use the object, setting it to any other button will ensure the override button is used to use this specific interactable object.
   * **Pointer Activates Use Action:** If this is checked then when a World Pointer beam (projected from the controller) hits the interactable object, if the object has `Hold Button To Use` unchecked then whilst the pointer is over the object it will run it's `Using` method. If `Hold Button To Use` is unchecked then the `Using` method will be run when the pointer is deactivated. The world pointer will not throw the `Destination Set` event if it is affecting an interactable object with this setting checked as this prevents unwanted teleporting from happening when using an object with a pointer.
-  * **Rumble On Use:** The haptic feedback on the controller can be triggered upon using the object, the `x` denotes the length of time, the `y` denotes the strength of the pulse. (x and y will be replaced in the future with a custom editor).
+  * **Rumble On Use:** The haptic feedback on the controller can be triggered upon using the object, the `Strength` denotes the strength of the pulse, the `Duration` denotes the length of time.
   * **Allowed Use Controllers:** Determines which controller can initiate a use action. The options available are:
    * `Both` means both controllers are allowed to use.
    * `Left_Only` means only the left controller is allowed to use.
@@ -1118,6 +1339,17 @@ The basis of this script is to provide a simple mechanism for identifying object
   * `InteractableObjectUngrabbed` - Emitted when the other object stops grabbing the current object.
   * `InteractableObjectUsed` - Emitted when another object uses the current object (e.g. a controller).
   * `InteractableObjectUnused` - Emitted when the other object stops using the current object.
+
+### Unity Events
+
+Adding the `VRTK_InteractableObject_UnityEvents` component to `VRTK_InteractableObject` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnTouch` - Emits the InteractableObjectTouched class event.
+  * `OnUntouch` - Emits the InteractableObjectUntouched class event.
+  * `OnGrab` - Emits the InteractableObjectGrabbed class event.
+  * `OnUngrab` - Emits the InteractableObjectUngrabbed class event.
+  * `OnUse` - Emits the InteractableObjectUsed class event.
+  * `OnUnuse` - Emits the InteractableObjectUnused class event.
 
 #### Event Payload
 
@@ -1295,6 +1527,17 @@ The AttachIsTrackObject method is used to determine if the object is using one o
 
 The AttachIsClimbObject method is used to determine if the object is using the `Climbable` grab attach mechanics.
 
+#### AttachIsKinematicObject/0
+
+  > `public bool AttachIsKinematicObject()`
+
+  * Parameters
+   * _none_
+  * Returns
+   * `bool` - Is true if the grab attach mechanic sets the object to a kinematic state on grab.
+
+The AttachIsKinematicObject method is used to determine if the object has kinematics turned on at the point of grab.
+
 #### AttachIsStaticObject/0
 
   > `public bool AttachIsStaticObject()`
@@ -1305,6 +1548,17 @@ The AttachIsClimbObject method is used to determine if the object is using the `
    * `bool` - Is true if the grab attach mechanic is one of the static types like `Climbable`.
 
 The AttachIsStaticObject method is used to determine if the object is using one of the static grab attach types.
+
+#### AttachIsUnthrowableObject/0
+
+  > `public bool AttachIsUnthrowableObject()`
+
+  * Parameters
+   * _none_
+  * Returns
+   * `bool` - Is true if the grab attach mechanic is of a type that shouldn't be considered thrown when released.
+
+The AttachIsUnthrowableObject method is used to determine if the object is using one of the grab types that should not be thrown when released.
 
 #### ZeroVelocity/0
 
@@ -1397,9 +1651,9 @@ The RegisterTeleporters method is used to find all objects that have a teleporte
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/005_Controller_BasicObjectGrabbing` uses the `VRTK_InteractTouch` and `VRTK_InteractGrab` scripts on the controllers to show how an interactable object can be grabbed and snapped to the controller and thrown around the game world.
+`VRTK/Examples/005_Controller_BasicObjectGrabbing` uses the `VRTK_InteractTouch` and `VRTK_InteractGrab` scripts on the controllers to show how an interactable object can be grabbed and snapped to the controller and thrown around the game world.
 
-`SteamVR_Unity_Toolkit/Examples/013_Controller_UsingAndGrabbingMultipleObjects` shows mutltiple objects that can be grabbed by holding the buttons or grabbed by toggling the button click and also has objects that can have their Using state toggled to show how mutliple items can be turned on at the same time.
+`VRTK/Examples/013_Controller_UsingAndGrabbingMultipleObjects` shows multiple objects that can be grabbed by holding the buttons or grabbed by toggling the button click and also has objects that can have their Using state toggled to show how multiple items can be turned on at the same time.
 
 ---
 
@@ -1415,12 +1669,18 @@ The Interact Touch script is attached to a Controller object within the `[Camera
   * **Hide Controller Delay:** The amount of seconds to wait before hiding the controller on touch.
   * **Global Touch Highlight Color:** If the interactable object can be highlighted when it's touched but no local colour is set then this global colour is used.
   * **Custom Rigidbody Object:** If a custom rigidbody and collider for the rigidbody are required, then a gameobject containing a rigidbody and collider can be passed into this parameter. If this is empty then the rigidbody and collider will be auto generated at runtime to match the HTC Vive default controller.
-  * **Trigger On Static Objects:** Allows triggering on non-rigidbody interactable objects (e.g. Climbable)
 
 ### Class Events
 
-  * `ControllerTouchInteractableObject` -  Emitted when a valid object is touched
+  * `ControllerTouchInteractableObject` - Emitted when a valid object is touched
   * `ControllerUntouchInteractableObject` - Emitted when a valid object is no longer being touched
+
+### Unity Events
+
+Adding the `VRTK_InteractTouch_UnityEvents` component to `VRTK_InteractTouch` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnControllerTouchInteractableObject` - Emits the ControllerTouchInteractableObject class event.
+  * `OnControllerUntouchInteractableObject` - Emits the ControllerUntouchInteractableObject class event.
 
 #### Event Payload
 
@@ -1451,7 +1711,7 @@ The ForceTouch method will attempt to force the controller to touch the given ga
 
 The GetTouchedObject method returns the current object being touched by the controller.
 
-#### IsObjectInteractable
+#### IsObjectInteractable/1
 
   > `public bool IsObjectInteractable(GameObject obj)`
 
@@ -1472,6 +1732,17 @@ The IsObjectInteractable method is used to check if a given game object is of ty
    * _none_
 
 The ToggleControllerRigidBody method toggles the controller's rigidbody's ability to detect collisions. If it is true then the controller rigidbody will collide with other collidable game objects.
+
+#### IsRigidBodyActive/0
+
+  > `public bool IsRigidBodyActive()`
+
+  * Parameters
+   * _none_
+  * Returns
+   * `bool` - Is true if the rigidbody on the controller is currently active and able to affect other scene rigidbodies.
+
+The IsRigidBodyActive method checks to see if the rigidbody on the controller object is active and can affect other rigidbodies in the scene.
 
 #### ForceStopTouching/0
 
@@ -1497,7 +1768,7 @@ The ControllerColliders method retrieves all of the associated colliders on the 
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/005_Controller/BasicObjectGrabbing` demonstrates the highlighting of objects that have the `VRTK_InteractableObject` script added to them to show the ability to highlight interactable objects when they are touched by the controllers.
+`VRTK/Examples/005_Controller/BasicObjectGrabbing` demonstrates the highlighting of objects that have the `VRTK_InteractableObject` script added to them to show the ability to highlight interactable objects when they are touched by the controllers.
 
 ---
 
@@ -1530,6 +1801,13 @@ The interactable objects require a collider to activate the trigger and a rigidb
 
   * `ControllerGrabInteractableObject` - Emitted when a valid object is grabbed.
   * `ControllerUngrabInteractableObject` - Emitted when a valid object is released from being grabbed.
+
+### Unity Events
+
+Adding the `VRTK_InteractGrab_UnityEvents` component to `VRTK_InteractGrab` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnControllerGrabInteractableObject` - Emits the ControllerGrabInteractableObject class event.
+  * `OnControllerUngrabInteractableObject` - Emits the ControllerUngrabInteractableObject class event.
 
 #### Event Payload
 
@@ -1572,12 +1850,12 @@ The AttemptGrab method will attempt to grab the currently touched object without
 The GetGrabbedObject method returns the current object being grabbed by the controller.
 
 ### Example
-  
-`SteamVR_Unity_Toolkit/Examples/005_Controller/BasicObjectGrabbing` demonstrates the grabbing of interactable objects that have the `VRTK_InteractableObject` script attached to them. The objects can be picked up and thrown around.
 
-`SteamVR_Unity_Toolkit/Examples/013_Controller_UsingAndGrabbingMultipleObjects` demonstrates that each controller can grab and use objects independently and objects can also be toggled to their use state simultaneously.
+`VRTK/Examples/005_Controller/BasicObjectGrabbing` demonstrates the grabbing of interactable objects that have the `VRTK_InteractableObject` script attached to them. The objects can be picked up and thrown around.
 
-`SteamVR_Unity_Toolkit/Examples/014_Controller_SnappingObjectsOnGrab` demonstrates the different mechanisms for snapping a grabbed object to the controller.
+`VRTK/Examples/013_Controller_UsingAndGrabbingMultipleObjects` demonstrates that each controller can grab and use objects independently and objects can also be toggled to their use state simultaneously.
+
+`VRTK/Examples/014_Controller_SnappingObjectsOnGrab` demonstrates the different mechanisms for snapping a grabbed object to the controller.
 
 ---
 
@@ -1603,11 +1881,18 @@ If a valid interactable object is usable then pressing the set `Use` button on t
   * `ControllerUseInteractableObject` - Emitted when a valid object starts being used.
   * `ControllerUnuseInteractableObject` - Emitted when a valid object stops being used.
 
+### Unity Events
+
+Adding the `VRTK_InteractUse_UnityEvents` component to `VRTK_InteractUse` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnControllerUseInteractableObject` - Emits the ControllerUseInteractableObject class event.
+  * `OnControllerUnuseInteractableObject` - Emits the ControllerUnuseInteractableObject class event.
+
 #### Event Payload
 
   * `uint controllerIndex` - The index of the controller doing the interaction
   * `GameObject target` - The GameObject of the interactable object that is being interacted with by the controller
-  
+
 ### Class Methods
 
 #### GetUsingObject/0
@@ -1645,9 +1930,9 @@ The ForceResetUsing will force the controller to stop using the currently touche
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/006_Controller_UsingADoor` simulates using a door object to open and close it. It also has a cube on the floor that can be grabbed to show how interactable objects can be usable or grabbable.
+`VRTK/Examples/006_Controller_UsingADoor` simulates using a door object to open and close it. It also has a cube on the floor that can be grabbed to show how interactable objects can be usable or grabbable.
 
-`SteamVR_Unity_Toolkit/Examples/008_Controller_UsingAGrabbedObject` which shows that objects can be grabbed with one button and used with another (e.g. firing a gun).
+`VRTK/Examples/008_Controller_UsingAGrabbedObject` which shows that objects can be grabbed with one button and used with another (e.g. firing a gun).
 
 ---
 
@@ -1666,7 +1951,7 @@ The Object Auto Grab script is attached to a Controller object within the `[Came
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/026_Controller_ForceHoldObject` shows how to automatically grab a sword to each controller and also prevents the swords from being dropped so they are permanently attached to the user's controllers.
+`VRTK/Examples/026_Controller_ForceHoldObject` shows how to automatically grab a sword to each controller and also prevents the swords from being dropped so they are permanently attached to the user's controllers.
 
 ---
 
@@ -1691,17 +1976,25 @@ The Simulator script is attached to the `[CameraRig]` prefab. Supported movement
 
 ### Overview
 
-This class allows player movement based on grabbing of `VRTK_InteractableObject` objects that are tagged as `Climbable`. It should be attached to the `[CameraRig]` object. Because it works by grabbing, each controller should have a `VRTK_InteractGrab` and `VRTK_InteractTouch` component attached. You also have to set the `VRTK_InteractTouch` `Trigger On Static Objects` parameter to true as climbable objects do not use a rigid body for trigger detection.
+This class allows player movement based on grabbing of `VRTK_InteractableObject` objects that are tagged as `Climbable`. It should be attached to the `[CameraRig]` object. Because it works by grabbing, each controller should have a `VRTK_InteractGrab` and `VRTK_InteractTouch` component attached.
 
 ### Inspector Parameters
 
-  * **usePlayerScale:** Will scale movement up and down based on the player transform's scale.
+  * **Use Player Scale:** Will scale movement up and down based on the player transform's scale.
   * **Use Gravity:** Will allow physics based falling when the user lets go of objects above ground.
+  * **Safe Zone Teleport Offset:** An additional amount to move the player away from a wall if an ungrab teleport happens due to camera/object collisions.
 
 ### Class Events
 
   * `PlayerClimbStarted` - Emitted when player climbing has started.
   * `PlayerClimbEnded` - Emitted when player climbing has ended.
+
+### Unity Events
+
+Adding the `VRTK_PlayerClimb_UnityEvents` component to `VRTK_PlayerClimb` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnPlayerClimbStarted` - Emits the PlayerClimbStarted class event.
+  * `OnPlayerClimbEnded` - Emits the PlayerClimbEnded class event.
 
 #### Event Payload
 
@@ -1710,7 +2003,7 @@ This class allows player movement based on grabbing of `VRTK_InteractableObject`
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/037_CameraRig_ClimbingFalling` shows how to set up a scene with player climbing. There are many different examples showing how the same system can be used in unique ways.
+`VRTK/Examples/037_CameraRig_ClimbingFalling` shows how to set up a scene with player climbing. There are many different examples showing how the same system can be used in unique ways.
 
 ---
 
@@ -1749,12 +2042,12 @@ All 3D controls extend the `VRTK_Control` abstract class which provides a defaul
 ### Class Events
 
   * `OnValueChanged` - Emitted when the control is interacted with.
-  
+
 #### Event Payload
 
   * `float value` - The current value in the context of the control extending this abstract class.
   * `float value` - The normalized value in the range between 0 and 100 of the control extending this abstract class.
-  
+
 ### Class Methods
 
 #### GetValue/0
@@ -1826,7 +2119,7 @@ The script will instantiate the required Rigidbody and ConstantForce components 
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/025_Controls_Overview` shows a collection of pressable buttons that are interacted with by activating the rigidbody on the controller by pressing the grab button without grabbing an object.
+`VRTK/Examples/025_Controls_Overview` shows a collection of pressable buttons that are interacted with by activating the rigidbody on the controller by pressing the grab button without grabbing an object.
 
 ---
 
@@ -1845,13 +2138,13 @@ The script will instantiate the required Rigidbody, Interactable and HingeJoint 
   * **Lid:** The game object for the lid.
   * **Body:** The game object for the body.
   * **Handle:** The game object for the handle.
-  * **Content:** The parent game object for the chest content elements. 
+  * **Content:** The parent game object for the chest content elements.
   * **Hide Content:** Makes the content invisible while the chest is closed.
   * **Max Angle:** The maximum opening angle of the chest.
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/025_Controls_Overview` shows a chest that can be open and closed, it also displays the current opening angle of the chest.
+`VRTK/Examples/025_Controls_Overview` shows a chest that can be open and closed, it also displays the current opening angle of the chest.
 
 ---
 
@@ -1860,7 +2153,7 @@ The script will instantiate the required Rigidbody, Interactable and HingeJoint 
 
 ### Overview
 
-Transforms a game object into a door with an optional handle attached to an  optional frame. The direction can be freely set and also very reliably auto-detected.
+Transforms a game object into a door with an optional handle attached to an optional frame. The direction can be freely set and also very reliably auto-detected.
 
 There are situations when it can be very hard to automatically calculate the correct axis and anchor values for the hinge joint. If this situation is encountered then simply add the hinge joint manually and set these two values. All the rest will still be handled by the script.
 
@@ -1872,7 +2165,7 @@ The script will instantiate the required Rigidbodies, Interactable and HingeJoin
   * **Door:** The game object for the door. Can also be an empty parent or left empty if the script is put onto the actual door mesh. If no colliders exist yet a collider will tried to be automatically attached to all children that expose renderers.
   * **Handles:** The game object for the handles. Can also be an empty parent or left empty. If empty the door can only be moved using the rigidbody mode of the controller. If no collider exists yet a compound collider made up of all children will try to be calculated but this will fail if the door is rotated. In that case a manual collider will need to be assigned.
   * **Frame:** The game object for the frame to which the door is attached. Should only be set if the frame will move as well to ensure that the door moves along with the frame.
-  * **Content:** The parent game object for the door content elements. 
+  * **Content:** The parent game object for the door content elements.
   * **Hide Content:** Makes the content invisible while the door is closed.
   * **Max Angle:** The maximum opening angle of the door.
   * **Open Inward:** Can the door be pulled to open.
@@ -1881,7 +2174,7 @@ The script will instantiate the required Rigidbodies, Interactable and HingeJoin
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/025_Controls_Overview` shows a selection of door types, from a normal door and trapdoor, to a door with a catflap in the middle.
+`VRTK/Examples/025_Controls_Overview` shows a selection of door types, from a normal door and trapdoor, to a door with a cat-flap in the middle.
 
 ---
 
@@ -1902,14 +2195,14 @@ It is possible to supply a third game object which is the root of the contents i
 
   * **Direction:** The axis on which the chest should open. All other axis will be frozen.
   * **Body:** The game object for the body.
-  * **Handle:** The game object for the handle. 
-  * **Content:** The parent game object for the drawer content elements. 
+  * **Handle:** The game object for the handle.
+  * **Content:** The parent game object for the drawer content elements.
   * **Hide Content:** Makes the content invisible while the drawer is closed.
   * **Snapping:** Keeps the drawer closed with a slight force. This way the drawer will not gradually open due to some minor physics effect.
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/025_Controls_Overview` shows a drawer with contents that can be opened and closed freely and the contents can be removed from the drawer.
+`VRTK/Examples/025_Controls_Overview` shows a drawer with contents that can be opened and closed freely and the contents can be removed from the drawer.
 
 ---
 
@@ -1931,7 +2224,7 @@ The script will instantiate the required Rigidbody and Interactable components a
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/025_Controls_Overview` has a couple of rotator knobs that can be rotated by grabbing with the controller and then rotating the controller in the desired direction.
+`VRTK/Examples/025_Controls_Overview` has a couple of rotator knobs that can be rotated by grabbing with the controller and then rotating the controller in the desired direction.
 
 ---
 
@@ -1953,7 +2246,7 @@ The script will instantiate the required Rigidbody, Interactable and HingeJoing 
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/025_Controls_Overview` has a couple of levers that can be grabbed and moved. One lever is horizontal and the other is vertical.
+`VRTK/Examples/025_Controls_Overview` has a couple of levers that can be grabbed and moved. One lever is horizontal and the other is vertical.
 
 ---
 
@@ -1975,7 +2268,7 @@ The script will instantiate the required Rigidbody and Interactable components a
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/025_Controls_Overview` has a selection of sliders at various angles with different step values to demonstrate their usage.
+`VRTK/Examples/025_Controls_Overview` has a selection of sliders at various angles with different step values to demonstrate their usage.
 
 ---
 
@@ -1985,7 +2278,7 @@ The script will instantiate the required Rigidbody and Interactable components a
 
 Manages objects defined as content. When taking out an object from a drawer and closing the drawer this object would otherwise disappear even if outside the drawer.
 
-The script will use the boundaries of the control to determine if it is in or out and reparent the object as necessary. It can be put onto individual objects or the parent of multiple objects. Using the latter way all interactable objects under that parent will become managed by the script.
+The script will use the boundaries of the control to determine if it is in or out and re-parent the object as necessary. It can be put onto individual objects or the parent of multiple objects. Using the latter way all interactable objects under that parent will become managed by the script.
 
 ### Inspector Parameters
 
@@ -1995,7 +2288,7 @@ The script will use the boundaries of the control to determine if it is in or ou
 
 ### Example
 
-`SteamVR_Unity_Toolkit/Examples/025_Controls_Overview` has a drawer with a collection of items that adhere to this concept.
+`VRTK/Examples/025_Controls_Overview` has a drawer with a collection of items that adhere to this concept.
 
 ---
 
@@ -2027,6 +2320,14 @@ It is utilised by the `VRTK_WorldPointer` for dealing with pointer events when t
   * `DestinationMarkerEnter` - Emitted when a collision with another game object has occurred.
   * `DestinationMarkerExit` - Emitted when the collision with the other game object finishes.
   * `DestinationMarkerSet` - Emitted when the destination marker is active in the scene to determine the last destination position (useful for selecting and teleporting).
+
+### Unity Events
+
+Adding the `VRTK_DestinationMarker_UnityEvents` component to `VRTK_DestinationMarker` object allows access to `UnityEvents` that will react identically to the Class Events.
+
+  * `OnDestinationMarkerEnter` - Emits the DestinationMarkerEnter class event.
+  * `OnDestinationMarkerExit` - Emits the DestinationMarkerExit class event.
+  * `OnDestinationMarkerSet` - Emits the DestinationMarkerSet class event.
 
 #### Event Payload
 
@@ -2074,10 +2375,11 @@ The SetHeadsetPositionCompensation method determines whether the offset position
 ---
 
 ## VRTK_WorldPointer
+  > extends [VRTK_DestinationMarker](#vrtk_destinationmarker)
 
 ### Overview
 
-This abstract class provides any game pointer the ability to know the the state of the implemented pointer. It extends the `VRTK_DestinationMarker` to allow for destination events to be emitted when the pointer cursor collides with objects.
+This abstract class provides any game pointer the ability to know the state of the implemented pointer. It extends the `VRTK_DestinationMarker` to allow for destination events to be emitted when the pointer cursor collides with objects.
 
 The World Pointer also provides a play area cursor to be displayed for all cursors that utilise this class. The play area cursor is a representation of the current calibrated play area space and is useful for visualising the potential new play area space in the game world prior to teleporting. It can also handle collisions with objects on the new play area space and prevent teleporting if there are any collisions with objects at the potential new destination.
 
@@ -2154,7 +2456,7 @@ The ToggleBeam method allows the pointer beam to be toggled on or off via code a
 
 This directory contains Unity3d scenes that demonstrate the scripts and prefabs being used in the game world to create desired functionality.
 
-There is also a `/Resources/Scripts` directory within the `SteamVR_Unity_Toolkit/Examples` directory that contains helper scripts utilised by the example scenes to highlight certain functionality (such as event listeners). These example scripts are not required for real world usage.
+There is also a `/Resources/Scripts` directory within the `VRTK/Examples` directory that contains helper scripts utilised by the example scenes to highlight certain functionality (such as event listeners). These example scripts are not required for real world usage.
 
 ## Current Examples
 
@@ -2220,7 +2522,7 @@ A scene with a terrain object and a selection of varying height 3d objects that 
 
 ### 011_Camera_HeadSetCollisionFading
 
-A scene with three walls around the play area and if the user puts their head into any of the collidable walls then the headset fades to black to prevent seeing unwanted object clipping artifacts.
+A scene with three walls around the play area and if the user puts their head into any of the collidable walls then the headset fades to black to prevent seeing unwanted object clipping artefacts.
 
   > [View Example Tour on YouTube](https://www.youtube.com/watch?v=r0RZci0tZOI)
 
@@ -2274,7 +2576,7 @@ A scene which shows how the controller pointer beam can be used to toggle the us
 
 ### 020_CameraRig_MeshTeleporting
 
-A scene with an object with a mesh collider to demonstrate how the Height Adjust Teleporter can be used to climb up and down onbjects with a mesh collider.
+A scene with an object with a mesh collider to demonstrate how the Height Adjust Teleporter can be used to climb up and down objects with a mesh collider.
 
   > [View Example Tour on YouTube](https://www.youtube.com/watch?v=6M1PZ8EjQTo)
 
@@ -2322,7 +2624,7 @@ A scene that demonstrates how to teleport to different locations without needing
 
 ### 028_CameraRig_RoomExtender
 
-A scene that demonstates the concept of extending the physical room scale space by multiplying the physical steps taken in the chaperone bounds. A higher multiplier will mean the user can walk further in the play area and the walk multiplier can be toggled by a button press.
+A scene that demonstrates the concept of extending the physical room scale space by multiplying the physical steps taken in the chaperone bounds. A higher multiplier will mean the user can walk further in the play area and the walk multiplier can be toggled by a button press.
 
   > [View Example Tour on YouTube](https://www.youtube.com/watch?v=qcBr6VWrRmo)
 
@@ -2336,7 +2638,7 @@ A scene that demonstrates adding dynamic radial menus to controllers and other o
 
 ### 031_CameraRig_HeadsetGazePointer
 
-A scene that demonstrates the ability to attach a pointer to the headset to allow for a gaze pointer for teleporting or other interactions supported by the World Pointers. The `Touchpad` on the right controller activates the gaze beam, where as the `Touchpad` on the left controller activates a beam projected from a drone in the sky as the World Pointers can be attached to any object.
+A scene that demonstrates the ability to attach a pointer to the headset to allow for a gaze pointer for teleporting or other interactions supported by the World Pointers. The `Touchpad` on the right controller activates the gaze beam, whereas the `Touchpad` on the left controller activates a beam projected from a drone in the sky as the World Pointers can be attached to any object.
 
 ### 032_Controller_CustomControllerModel
 
@@ -2360,6 +2662,6 @@ A scene that demonstrates how the Bezier Pointer can display an object (teleport
 
 ### 037_CameraRig_ClimbingFalling
 
-A scene that demonstrates how to set up the climbing mechanism with different activities to try it with. A `VRTK_PlayerClimb` object is needed on the `[CameraRig]`. `VRTK_HeightAdjustTeleport` is also added to the `[CameraRig]` to allow movement, but also to allow walking off edges with `UseGravity` enabled. Each controller's `VRTK_InteractTouch` component has `TriggerOnStaticObjects` enabled. Various objects with a `VRTK_InteractableObject` component are scattered throughout the level. They all have the `GrabAttachMechanic` set to `Climbable`.
+A scene that demonstrates how to set up the climbing mechanism with different activities to try it with. A `VRTK_PlayerClimb` object is needed on the `[CameraRig]`. `VRTK_HeightAdjustTeleport` is also added to the `[CameraRig]` to allow movement, but also to allow walking off edges with `UseGravity` enabled. Various objects with a `VRTK_InteractableObject` component are scattered throughout the level. They all have the `GrabAttachMechanic` set to `Climbable`.
 
 [Catlike Coding]: http://catlikecoding.com/unity/tutorials/curves-and-splines/
