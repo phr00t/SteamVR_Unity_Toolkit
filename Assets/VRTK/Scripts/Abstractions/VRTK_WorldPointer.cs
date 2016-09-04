@@ -7,6 +7,7 @@
 namespace VRTK
 {
     using UnityEngine;
+    using UnityEngine.AI;
 
     public abstract class VRTK_WorldPointer : VRTK_DestinationMarker
     {

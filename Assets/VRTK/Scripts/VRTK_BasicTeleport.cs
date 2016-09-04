@@ -13,6 +13,7 @@ namespace VRTK
 {
     using UnityEngine;
     using System.Collections;
+    using UnityEngine.AI;
 
     public delegate void TeleportEventHandler(object sender, DestinationMarkerEventArgs e);
 
